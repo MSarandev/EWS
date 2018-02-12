@@ -1,4 +1,5 @@
 <!-- Created by Maxim Sarandev, bootstrap template, Copyright 2018 -->
+<!-- ART BY: http://www.thepinsta.com -->
 <!doctype html>
 <html lang="en">
 <head>

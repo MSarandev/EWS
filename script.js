@@ -7,21 +7,18 @@ $(document).ready(function() {
     //player data
     var player_x = 0;
     var player_y = 0;
-
     // tile prefix for generation
     var t_prefix = "tile_";
-
     // tile max number
     var tile_max = 35;
-
     // last used tile index
     var last_tile = 0;
-
     // tile pick random
     var pick_rand = 1;
-
     // control the room generation
     var exit_room = 10;
+    // current animation
+    var cur_anim = "idle";
 
     // generate the floor tiles
     function generateFloorTiles(redraw) {
@@ -111,8 +108,7 @@ $(document).ready(function() {
             roomGeneration(1);
 
             // draw the player
-            ctx.fillStyle = 'red';
-            ctx.fillRect(player_x,player_y,10,10);
+            drawPlayer(player_x,player_y);
         }else{
             // THE PLAYER IS WITHIN BOUNDS
 
@@ -120,15 +116,79 @@ $(document).ready(function() {
             generateFloorTiles(true);
 
             // draw the player
-            ctx.fillStyle = 'red';
-            ctx.fillRect(player_x,player_y,10,10);
+            drawPlayer(player_x,player_y);
         }
     }
 
+    // draw player function
+    function drawPlayer(x,y) {
+        // declare all
+        var path_to_img = "resources/player/idle.png";
+        var player_img;
+        player_img = new Image();
+        player_img.src = path_to_img;
 
-    // draw once
-    draw();
-    generateFloorTiles();
+        // context draw image
+        ctx.drawImage(player_img, x, y, 55, 65);
+    }
+
+    /**
+     *
+     * This is severely broken, should be fixed soon
+     *
+     *
+     *
+     * 
+     *
+    // main animation function
+    function animateMe(action) {
+        // check what to animate
+        if(action===1){
+            // animate run
+            cur_anim = "run"; // set the prefix
+
+            // define
+            var anim_counter = 0;
+            var path_to_img = "resources/player/run/frame";
+            var frame_counter = 1;
+            var player_img;
+            player_img = new Image();
+            player_img.src = path_to_img+frame_counter.toString()+".png";
+
+            while(action===1){
+                // loop animation
+                ctx.drawImage(player_img,player_x,player_y,55,65);
+                // change the frame
+                if(frame_counter<4){
+                    // increment to next frame
+                    frame_counter++;
+                }else{
+                    // reset the frames
+                    frame_counter = 1;
+                }
+
+                if(anim_counter===100){
+                    // break out
+                    action=0;
+                }
+
+                anim_counter++;
+                player_img.src = path_to_img+frame_counter.toString()+".png";
+            }
+        }else if(action===2){
+            // animate attack
+            cur_anim = "attack"; // set the prefix
+
+        }else if(action===3){
+            // animate defend
+            cur_anim = "defend"; // set the prefix
+        }else{
+            // DEFAULT
+            cur_anim = "ïdle"; // set to default
+
+        }
+    }
+     */
 
     // main draw function
     function draw() {
@@ -244,4 +304,13 @@ $(document).ready(function() {
                 break;
         }
     });
+
+
+    /**
+     ON INITIALISATION (GAME START)
+     */
+
+    // draw once on init
+    draw();
+    generateFloorTiles();
 });
