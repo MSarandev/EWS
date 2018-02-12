@@ -55,15 +55,28 @@
             </div>
             <div class="col-md-3 order-last h-100">
                 <div class="col-xl-9 order-last h-100">
-                    <div class="row" id="stats_container">
+                    <div class="row justify-content-center"
+                         id="stats_container">
                         <!-- Contains the current stats -->
-                        Stats
-                    </div>
+                        <div class="row-md">
+                            <img id="health_bar" width="77" height="298"
+                                    src="resources/player/bars/health/full.png">
+                            <img id="defence_bar" width="77" height="298"
+                                 src="resources/player/bars/defence/full.png">
+                        </div>
+                        <div class="w-100 d-none d-sm-block"></div>
+                        <div class="row-sm justify-content-end">
+                            <p id="attack_index">Attack power: 10</p>
+                            <div class="w-100 d-none d-sm-block"></div>
+                            <p id="defence_index">Defence power: 10</p>
+                            <div class="w-100 d-none d-sm-block"></div>
+                            <p id="rooms_cleared">Rooms cleared: 0</p>
+                        </div>
+                </div>
                     <div class="row" id="ranking_container">
                         <!-- Contains the ranking system -->
                         Ranking
                     </div>
-                </div>
             </div>
         </div>
     </div>

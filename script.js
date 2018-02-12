@@ -138,7 +138,7 @@ $(document).ready(function() {
      *
      *
      *
-     * 
+     *
      *
     // main animation function
     function animateMe(action) {
