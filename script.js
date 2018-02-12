@@ -8,12 +8,127 @@ $(document).ready(function() {
     var player_x = 0;
     var player_y = 0;
 
-    // simplify the larger function
-    function quickDraw(){
-        // draw again
-        ctx.fillStyle = 'red';
-        ctx.fillRect(player_x,player_y,10,10);
+    // tile prefix for generation
+    var t_prefix = "tile_";
+
+    // tile max number
+    var tile_max = 35;
+
+    // last used tile index
+    var last_tile = 0;
+
+    // tile pick random
+    var pick_rand = 1;
+
+    // control the room generation
+    var exit_room = 10;
+
+    // generate the floor tiles
+    function generateFloorTiles(redraw) {
+        // for the array of tiles, pick one style
+        pick_rand = Math.floor((Math.random() * tile_max) + 1);
+
+        // declare all
+        var tile_file_name;
+        var tile_img;
+        var i = 0;
+        var j = 0;
+
+        if(redraw!==true) {
+            if (last_tile !== pick_rand) {
+                // CREATE NEW TILE SET, USE THE RANDOM NUMBER
+
+                // we haven't used this tile before
+
+                // set as last used tile (so we don't use it again)
+                last_tile = pick_rand;
+
+                // fetch the tile with prefix
+                tile_file_name = t_prefix + pick_rand.toString() + ".png";
+                tile_img = new Image();
+                // set the source
+                tile_img.src = "resources/tiles/" + tile_file_name;
+
+                // generate the floor
+                for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
+                    // for columns
+                    for (j = 0; j < 510; j += 30) { // increment 29 for the width of the tile
+                        // for rows
+
+                        // context, draw the tile
+                        ctx.drawImage(tile_img, i, j, 30, 30);
+                    }
+                }
+            }
+        }else{
+            // RE-DRAW WITH THE SAME TILE (PLAYER MOVED IN BOUNDS)
+
+            // fetch the tile with prefix
+            tile_file_name = t_prefix + last_tile.toString() + ".png";
+            tile_img = new Image();
+            // set the source
+            tile_img.src = "resources/tiles/" + tile_file_name;
+
+            // generate the floor
+            for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
+                // for columns
+                for (j = 0; j < 510; j += 30) { // increment 29 for the width of the tile
+                    // for rows
+
+                    // context, draw the tile
+                    ctx.drawImage(tile_img, i, j, 30, 30);
+                }
+            }
+        }
     }
+
+    // room generation function
+    function roomGeneration() {
+        // check if the player is in the room
+        // INITIAL GENERATION BELOW (exit_room = 10)
+        // SHOULD BE OPTIMISED SOON
+        if(exit_room===10){
+            // draw the floor
+            generateFloorTiles();
+
+            // RESET
+            exit_room = 0;
+        }else if(exit_room===1){
+            // reset
+            exit_room = 0;
+
+            // draw the floor
+            generateFloorTiles();
+        }
+    }
+
+    // simplify the larger function
+    function quickDraw(ex){
+        if(ex === 1){
+            // THE PLAYER IS OUT OF BOUNDS, CREATE NEW ROOM
+
+            // call the room generation function
+            roomGeneration(1);
+
+            // draw the player
+            ctx.fillStyle = 'red';
+            ctx.fillRect(player_x,player_y,10,10);
+        }else{
+            // THE PLAYER IS WITHIN BOUNDS
+
+            // re-draw the same floor
+            generateFloorTiles(true);
+
+            // draw the player
+            ctx.fillStyle = 'red';
+            ctx.fillRect(player_x,player_y,10,10);
+        }
+    }
+
+
+    // draw once
+    draw();
+    generateFloorTiles();
 
     // main draw function
     function draw() {
@@ -21,37 +136,46 @@ $(document).ready(function() {
         if(player_x > -1 && player_x < 990 &&
             player_y > -1 && player_y < 500){
             // if the player is within the boundaries
-            quickDraw();
-            $("#ranking_container").html(player_x + "," + c_wrapper.width() + player_y);
+            quickDraw(0);
         }else{
             // check where to push
-            if(player_x==990){
+            if(player_x===990){
                 // reset x
                 player_x = 0;
+                // update the room gen
+                exit_room = 1;
                 // draw again
-                quickDraw();
-            }else if(player_y==500){
+                quickDraw(1);
+            }else if(player_y===500){
                 // reset y
                 player_y = 0;
+                // update the room gen
+                exit_room = 1;
                 // draw again
-                quickDraw();
+                quickDraw(1);
             }
             if(player_x < 0){
                 // reset x to max
                 player_x = 980;
+                // update the room gen
+                exit_room = 1;
                 // draw again
-                quickDraw();
+                quickDraw(1);
             }else if(player_y < 0){
                 // reset y to max
                 player_y = 490;
+                // update the room gen
+                exit_room = 1;
                 // draw again
-                quickDraw();
+                quickDraw(1);
             }
         }
     }
 
-    // draw once
-    draw();
+
+    /**
+     MAIN CONTROL FUNCTIONS BELOW
+     */
 
     //move on key press (ARROW KEYS)
     c_wrapper.keydown(function(event) {
