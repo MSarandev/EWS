@@ -1,0 +1,56 @@
+/* Created by Maxim Sarandev, custom style related to bootstrap's CSS */
+/* Copyright 2018 */
+
+
+@import url('https://fonts.googleapis.com/css?family=Cabin|Niconne');
+
+html, body{
+    height: 90%;
+}
+
+body{
+    background: #000 url("resources/bck.jpg") no-repeat;
+    background-size: cover;
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+}
+
+h1{
+    font-family: Niconne, "Times New Roman", Times, serif;;
+}
+
+/* Control the canvas appearance */
+#main_plot{
+    background-color: white;
+    width: 100%;
+    border: 1px solid black;
+}
+
+/* Control the character display appearance */
+#char_container{
+    height: 300px;
+    border: 1px solid #fff;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Control the item socket display */
+.i_sock{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #fff;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Control the stats display */
+#stats_container{
+    height: 50%;
+    border: 1px solid #fff;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Control the rankings display */
+#ranking_container{
+    height: 50%;
+    border: 1px solid #fff;
+    background-color: rgba(0,0,0,0.5);
+}
