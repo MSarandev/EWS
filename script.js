@@ -7,6 +7,11 @@ $(document).ready(function() {
     //player data
     var player_x = 0;
     var player_y = 0;
+    var player_health_max;
+    var player_health_current;
+    var player_defence_max;
+    var player_defence_current;
+    var player_name = "Falcon";
     // tile prefix for generation
     var t_prefix = "tile_";
     // tile max number
@@ -169,6 +174,17 @@ $(document).ready(function() {
 
         // context draw image
         ctx.drawImage(player_img, x, y, 55, 65);
+
+        // Extra info to draw
+        ctx.font = "16px Cabin";
+        ctx.fillStyle = "#fff";
+        //draw name
+        ctx.fillText(player_name,
+            x+2, y +75);
+        // draw health
+        ctx.fillText(player_health_current+"/"+player_health_max,
+                    x+5, y +95);
+
     }
 
     /**
@@ -276,8 +292,8 @@ $(document).ready(function() {
                 $("#alert_modal").modal('show');
 
                 // reset the position
-                player_x = 0;
-                player_y = 0;
+                player_x = 30;
+                player_y = 30;
 
                 // re-draw
                 quickDraw(0);
@@ -363,10 +379,17 @@ $(document).ready(function() {
      ON INITIALISATION (GAME START)
      */
 
+    // set the params
+    // CHANGE TO PHP CONNECT
+    player_health_max = 10;
+    player_defence_max = 10;
+    player_health_current = 10;
+    player_defence_current = 10;
+
     // draw once on init
     draw();
     generateFloorTiles();
-    drawPlayer(0,0);
+    drawPlayer(30,30);
 
     // show the lore modal
     $('#lore_modal').modal('show');
