@@ -19,6 +19,8 @@ $(document).ready(function() {
     var exit_room = 10;
     // current animation
     var cur_anim = "idle";
+    // boss controller
+    var boss_alive = true;
 
     // generate the floor tiles
     function generateFloorTiles(redraw) {
@@ -123,7 +125,7 @@ $(document).ready(function() {
     // draw player function
     function drawPlayer(x,y) {
         // declare all
-        var path_to_img = "resources/player/idle.png";
+        var path_to_img = "resources/player/player_static.png";
         var player_img;
         player_img = new Image();
         player_img.src = path_to_img;
@@ -193,41 +195,55 @@ $(document).ready(function() {
     // main draw function
     function draw() {
         //draw the player
-        if(player_x > -1 && player_x < 990 &&
-            player_y > -1 && player_y < 500){
+        if(player_x > -1 && player_x < 935 &&
+            player_y > -1 && player_y < 425){
             // if the player is within the boundaries
             quickDraw(0);
         }else{
-            // check where to push
-            if(player_x===990){
-                // reset x
+            // check if the player has killed all bosses
+            if(boss_alive!==true) {
+                // check where to push
+                if (player_x === 935) {
+                    // reset x
+                    player_x = 0;
+                    // update the room gen
+                    exit_room = 1;
+                    // draw again
+                    quickDraw(1);
+                } else if (player_y === 425) {
+                    // reset y
+                    player_y = 0;
+                    // update the room gen
+                    exit_room = 1;
+                    // draw again
+                    quickDraw(1);
+                }
+                if (player_x < 0) {
+                    // reset x to max
+                    player_x = 935;
+                    // update the room gen
+                    exit_room = 1;
+                    // draw again
+                    quickDraw(1);
+                } else if (player_y < 0) {
+                    // reset y to max
+                    player_y = 425;
+                    // update the room gen
+                    exit_room = 1;
+                    // draw again
+                    quickDraw(1);
+                }
+            }else{
+                // the boss is still alive
+                // show "alert"
+                $("#alert_modal").modal('show');
+
+                // reset the position
                 player_x = 0;
-                // update the room gen
-                exit_room = 1;
-                // draw again
-                quickDraw(1);
-            }else if(player_y===500){
-                // reset y
                 player_y = 0;
-                // update the room gen
-                exit_room = 1;
-                // draw again
-                quickDraw(1);
-            }
-            if(player_x < 0){
-                // reset x to max
-                player_x = 980;
-                // update the room gen
-                exit_room = 1;
-                // draw again
-                quickDraw(1);
-            }else if(player_y < 0){
-                // reset y to max
-                player_y = 490;
-                // update the room gen
-                exit_room = 1;
-                // draw again
-                quickDraw(1);
+
+                // re-draw
+                quickDraw(0);
             }
         }
     }
@@ -313,4 +329,8 @@ $(document).ready(function() {
     // draw once on init
     draw();
     generateFloorTiles();
+    drawPlayer(0,0);
+
+    // show the lore modal
+    $('#lore_modal').modal('show');
 });
