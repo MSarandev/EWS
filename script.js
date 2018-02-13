@@ -12,7 +12,7 @@ $(document).ready(function() {
     // tile max number
     var tile_max = 35;
     // last used tile index
-    var last_tile = 0;
+    var last_tile = 1;
     // tile pick random
     var pick_rand = 1;
     // control the room generation
@@ -30,6 +30,7 @@ $(document).ready(function() {
         // declare all
         var tile_file_name;
         var tile_img;
+        var wall_img;
         var i = 0;
         var j = 0;
 
@@ -48,14 +49,32 @@ $(document).ready(function() {
                 // set the source
                 tile_img.src = "resources/tiles/" + tile_file_name;
 
+                // define the wall image
+                wall_img = new Image();
+                wall_img.src = "resources/tiles/wall/wall.png";
+
                 // generate the floor
                 for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
                     // for columns
                     for (j = 0; j < 510; j += 30) { // increment 29 for the width of the tile
                         // for rows
 
+                        // Draw the tile floor first
                         // context, draw the tile
                         ctx.drawImage(tile_img, i, j, 30, 30);
+
+                        // check if we need to draw a wall
+                        if(j===0){
+                            // first row, draw wall
+                            ctx.drawImage(wall_img, i, j, 30, 30);
+                        }else if(j===480){
+                            // last row - draw wall
+                            ctx.drawImage(wall_img, i, j, 30, 30);
+                        }else if(30<j<450) {
+                            // mid rows, draw first/last block
+                            ctx.drawImage(wall_img, 0, j, 30, 30);
+                            ctx.drawImage(wall_img, 990, j, 30, 30);
+                        }
                     }
                 }
             }
@@ -68,14 +87,32 @@ $(document).ready(function() {
             // set the source
             tile_img.src = "resources/tiles/" + tile_file_name;
 
+            // define the wall image
+            wall_img = new Image();
+            wall_img.src = "resources/tiles/wall/wall.png";
+
             // generate the floor
             for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
                 // for columns
                 for (j = 0; j < 510; j += 30) { // increment 29 for the width of the tile
                     // for rows
 
+                    // Draw the tile floor first
                     // context, draw the tile
                     ctx.drawImage(tile_img, i, j, 30, 30);
+
+                    // check if we need to draw a wall
+                    if(j===0){
+                        // first row, draw wall
+                        ctx.drawImage(wall_img, i, j, 30, 30);
+                    }else if(j===480){
+                        // last row - draw wall
+                        ctx.drawImage(wall_img, i, j, 30, 30);
+                    }else if(30<j<450) {
+                        // mid rows, draw first/last block
+                        ctx.drawImage(wall_img, 0, j, 30, 30);
+                        ctx.drawImage(wall_img, 990, j, 30, 30);
+                    }
                 }
             }
         }
