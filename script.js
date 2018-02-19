@@ -26,6 +26,12 @@ $(document).ready(function() {
     var cur_anim = "idle";
     // boss controller
     var boss_alive = true;
+    var boss_health = 20; // default
+    // frame data
+    var frame = 0;
+    // minion count
+    var minion_count = 4; // default all alive
+    var minion_health = 10; // default
 
     /**
         LOAD THE GAME DATA
@@ -211,8 +217,21 @@ $(document).ready(function() {
         player_img = new Image();
         player_img.src = path_to_img;
 
-        // context draw image
-        ctx.drawImage(player_img, x, y, 55, 65);
+        // check the player's orientation
+        if(x<468){
+            // looking right
+
+            // context draw image
+            ctx.drawImage(player_img, x, y, 55, 65);
+        }else{
+            // looking left
+
+            // change to the other image
+            player_img.src = "resources/player/player_l.png";
+
+            // context draw image
+            ctx.drawImage(player_img, x, y, 55, 65);
+        }
 
         // Extra info to draw
         ctx.font = "16px Cabin";
@@ -227,8 +246,124 @@ $(document).ready(function() {
     }
 
     // draw the boss function
-    function drawBoss(x,y) {
+    function drawBoss(boss_health) {
+        // set the minion image element
+        var boss_img = new Image();
+        boss_img.src = "resources/enemies/boss.png";
+        // Extra info to draw
+        ctx.font = "16px Cabin";
+        ctx.fillStyle = "#fff";
 
+        // coordinates counter
+        var y_counter = 180;
+        var x_counter = 750;
+
+        // generic
+        var i = 0;
+
+        if(player_x < 468){
+            // draw to the right
+
+            ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
+            //draw name
+            ctx.fillText("BOSS",x_counter+35, y_counter -15);
+            // draw health
+            ctx.fillText(boss_health,x_counter+45, y_counter);
+
+        }else{
+            // draw to the left
+
+            // flip the image
+            boss_img.src = "resources/enemies/boss_r.png";
+
+            // adjust counter
+            x_counter = 70;
+
+            ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
+            //draw name
+            ctx.fillText("BOSS",x_counter+35, y_counter -15);
+            // draw health
+            ctx.fillText(boss_health,x_counter+45, y_counter);
+        }
+    }
+
+    // draw the minions function
+    function drawMinion(minion_count, minion_health){
+        // set the minion image element
+        var minion_img = new Image();
+        minion_img.src = "resources/enemies/minion.png";
+        // Extra info to draw
+        ctx.font = "16px Cabin";
+        ctx.fillStyle = "#fff";
+
+        // coordinates counter
+        var y_counter = 90;
+        var x_counter = 470;
+
+        // generic
+        var i = 0;
+
+        // draw 4 minions across from the player
+        if(player_x < 468){
+            // draw to the right
+
+            for(i=0;i<minion_count;i++){
+                // to the right of the player, in equal Y intervals
+                if(x_counter===470){
+                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                    //draw name
+                    ctx.fillText("Minion",x_counter+2, y_counter +75);
+                    // draw health
+                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                    // increment
+                    x_counter = 510;
+                }else{
+                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                    //draw name
+                    ctx.fillText("Minion",x_counter+2, y_counter +75);
+                    // draw health
+                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                    // reset
+                    x_counter = 470;
+                }
+                y_counter+=90; // increment the position
+            }
+        }else{
+            // draw to the left
+
+            // flip the image
+            minion_img.src = "resources/enemies/minion_r.png";
+
+            // adjust counter
+            x_counter = 370;
+
+            // to the left of the player, in equal Y intervals
+            for(i=0;i<minion_count;i++){
+                // to the left of the player, in equal Y intervals
+                if(x_counter===370){
+                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                    //draw name
+                    ctx.fillText("Minion",x_counter+2, y_counter +75);
+                    // draw health
+                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                    // increment
+                    x_counter = 250;
+                }else{
+                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                    //draw name
+                    ctx.fillText("Minion",x_counter+2, y_counter +75);
+                    // draw health
+                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                    // reset
+                    x_counter = 370;
+                }
+                y_counter+=90; // increment the position
+            }
+        }
     }
 
     /**
@@ -296,6 +431,11 @@ $(document).ready(function() {
             player_y > -1 && player_y < 425){
             // if the player is within the boundaries
             quickDraw(0);
+
+            // draw the minions
+            drawMinion(minion_count,minion_health);
+            // draw the boss
+            drawBoss(boss_health);
         }else{
             // check if the player has killed all bosses
             if(boss_alive!==true) {
@@ -343,6 +483,10 @@ $(document).ready(function() {
                 quickDraw(0);
             }
         }
+
+        // Increase frame and redraw
+        frame++;
+        requestAnimationFrame(draw);
     }
 
 
@@ -358,28 +502,28 @@ $(document).ready(function() {
                 // LEFT
                 player_x-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 100:
             case 39:
                 // RIGHT
                 player_x+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 115:
             case 40:
                 // DOWN
                 player_y+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 119:
             case 38:
                 // UP
                 player_y-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             default:
                 break;
@@ -393,25 +537,25 @@ $(document).ready(function() {
                 // LEFT
                 player_x-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 100:
                 // RIGHT
                 player_x+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 115:
                 // DOWN
                 player_y+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             case 119:
                 // UP
                 player_y-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                draw();
+                //draw();
                 break;
             default:
                 break;

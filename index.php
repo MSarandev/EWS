@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container-fluid justify-content-center">
-        <h1>Dungeon Crawler v. 1.12</h1>
+        <h1>Dungeon Crawler v. 1.1(build 1.1.13)</h1>
     </div>
 
 
