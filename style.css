@@ -13,11 +13,21 @@ body{
     background-size: cover;
     color: #fff;
     font-family: Cabin, "Times New Roman", Times, serif;
+    overflow: hidden;
 }
 
 h1{
     font-family: Niconne, "Times New Roman", Times, serif;
 }
+
+.footer {
+    text-align: center;
+    position: absolute;
+    width: inherit;
+    bottom: 0;
+    background-color: #000;
+}
+
 
 /* Control the canvas appearance */
 #main_plot{

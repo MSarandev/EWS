@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container-fluid justify-content-center">
-        <h1>Dungeon Crawler v. 1.1(build 1.1.13)</h1>
+        <h1>Dungeon Crawler v. 1.1</h1>
     </div>
 
 
@@ -168,5 +168,21 @@
     // Supporting classes
 
     ?>
+
+    <!--Footer-->
+    <footer class="footer">
+        <!--Copyright-->
+        <div class="container-fluid justify-content-center">
+            (build 1.1.14) | © 2018 Copyright:
+                <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
+            |
+            <a href="https://github.com/MSarandev">
+                <img src="http://www.smallbutdigital.com/static/media/twitter.png"
+                     width="40"/>
+            </a>
+        </div>
+        <!--/Copyright-->
+
+    </footer>
 </body>
 </html>

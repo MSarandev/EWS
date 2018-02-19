@@ -17,7 +17,7 @@ $(document).ready(function() {
     // tile max number
     var tile_max = 35;
     // last used tile index
-    var last_tile = 1;
+    var last_tile = 2;
     // tile pick random
     var pick_rand = 1;
     // control the room generation
