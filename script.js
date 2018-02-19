@@ -27,6 +27,13 @@ $(document).ready(function() {
     // boss controller
     var boss_alive = true;
 
+    /**
+        LOAD THE GAME DATA
+        AJAX function to fetch all data from the PHP classes
+     */
+
+
+
     // generate the floor tiles
     function generateFloorTiles(redraw) {
         // for the array of tiles, pick one style
@@ -58,6 +65,14 @@ $(document).ready(function() {
                 wall_img = new Image();
                 wall_img.src = "resources/tiles/wall/wall.png";
 
+                // define the door image
+                door_img = new Image();
+                door_img.src = "resources/tiles/wall/door.png";
+
+                // define the horizontal door image
+                door_h_img = new Image();
+                door_h_img.src = "resources/tiles/wall/door_h.png";
+
                 // generate the floor
                 for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
                     // for columns
@@ -69,16 +84,24 @@ $(document).ready(function() {
                         ctx.drawImage(tile_img, i, j, 30, 30);
 
                         // check if we need to draw a wall
-                        if(j===0){
-                            // first row, draw wall
-                            ctx.drawImage(wall_img, i, j, 30, 30);
-                        }else if(j===480){
-                            // last row - draw wall
-                            ctx.drawImage(wall_img, i, j, 30, 30);
+                        if(j===0 || j===480){
+                            if(i===480){
+                                // draw the door
+                                ctx.drawImage(door_h_img, i, j, 30, 30);
+                            }else{
+                                // first row, draw wall
+                                ctx.drawImage(wall_img, i, j, 30, 30);
+                            }
                         }else if(30<j<450) {
                             // mid rows, draw first/last block
-                            ctx.drawImage(wall_img, 0, j, 30, 30);
-                            ctx.drawImage(wall_img, 990, j, 30, 30);
+                            if(j===240){
+                                // draw the door
+                                ctx.drawImage(door_img, 0, j, 30, 30);
+                                ctx.drawImage(door_img, 990, j, 30, 30);
+                            }else{
+                                ctx.drawImage(wall_img, 0, j, 30, 30);
+                                ctx.drawImage(wall_img, 990, j, 30, 30);
+                            }
                         }
                     }
                 }
@@ -96,6 +119,14 @@ $(document).ready(function() {
             wall_img = new Image();
             wall_img.src = "resources/tiles/wall/wall.png";
 
+            // define the door image
+            door_img = new Image();
+            door_img.src = "resources/tiles/wall/door.png";
+
+            // define the horizontal door image
+            door_h_img = new Image();
+            door_h_img.src = "resources/tiles/wall/door_h.png";
+
             // generate the floor
             for (i = 0; i < 1020; i += 30) { // increment 29, for the height of the tile
                 // for columns
@@ -107,16 +138,24 @@ $(document).ready(function() {
                     ctx.drawImage(tile_img, i, j, 30, 30);
 
                     // check if we need to draw a wall
-                    if(j===0){
-                        // first row, draw wall
-                        ctx.drawImage(wall_img, i, j, 30, 30);
-                    }else if(j===480){
-                        // last row - draw wall
-                        ctx.drawImage(wall_img, i, j, 30, 30);
+                    if(j===0 || j===480){
+                        if(i===480){
+                            // draw the door
+                            ctx.drawImage(door_h_img, i, j, 30, 30);
+                        }else{
+                            // first row, draw wall
+                            ctx.drawImage(wall_img, i, j, 30, 30);
+                        }
                     }else if(30<j<450) {
                         // mid rows, draw first/last block
-                        ctx.drawImage(wall_img, 0, j, 30, 30);
-                        ctx.drawImage(wall_img, 990, j, 30, 30);
+                        if(j===240){
+                            // draw the door
+                            ctx.drawImage(door_img, 0, j, 30, 30);
+                            ctx.drawImage(door_img, 990, j, 30, 30);
+                        }else{
+                            ctx.drawImage(wall_img, 0, j, 30, 30);
+                            ctx.drawImage(wall_img, 990, j, 30, 30);
+                        }
                     }
                 }
             }
@@ -184,6 +223,11 @@ $(document).ready(function() {
         // draw health
         ctx.fillText(player_health_current+"/"+player_health_max,
                     x+5, y +95);
+
+    }
+
+    // draw the boss function
+    function drawBoss(x,y) {
 
     }
 
