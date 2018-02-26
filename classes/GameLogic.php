@@ -13,23 +13,41 @@ require_once('Humanoid.php');
  */
 
 // create four minions
-$mi1 = new Humanoid();
-$mi2 = new Humanoid();
-$mi3 = new Humanoid();
-$mi4 = new Humanoid();
-
-// set the names
-$mi1->setName("Minion1");
-$mi2->setName("Minion2");
-$mi3->setName("Minion3");
-$mi4->setName("Minion4");
+$mi1 = new Humanoid("Arthur",5,470,90);
+$mi2 = new Humanoid("Jaina",5,510,180);
+$mi3 = new Humanoid("Theo",5,470,270);
+$mi4 = new Humanoid("Skeletor",5,510,360);
 
 
 // create an array with the values
-$min_array = [$mi1->getName(), $mi2->getName(), $mi3->getName(), $mi4->getName()];
+$min_array = [$mi1,$mi2,$mi3,$mi4];
 
 // Respond to AJAX
 if($_POST['param']==="names"){
     // return the names
-    echo $min_array[1];
+    foreach ($min_array as $minion) {
+        echo $minion->getName();
+        echo ",";
+    }
+}elseif($_POST['param']==="health"){
+    // get the health of the minions
+    // return the names
+    foreach ($min_array as $minion) {
+        echo $minion->getHealth();
+        echo ",";
+    }
+
+}elseif($_POST['param']==="pos") {
+    // get the health of the minions
+    // return the names
+    foreach ($min_array as $minion) {
+        echo $minion->getPosX();
+        echo ",";
+        echo $minion->getPosY();
+        echo ",";
+    }
+
+}elseif($_POST['param']==="check_hit"){
+    // check if the player hit an enemy
+    echo "not done yey";
 }

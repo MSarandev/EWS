@@ -33,23 +33,84 @@ $(document).ready(function() {
     var minion_count = 4; // default all alive
     var minion_health = 10; // default
     // returned data
-    var ret_data = [];
+    var names_list = []; // used later
+    var names_list_c = 0; // counter
+    var gen_counter = 0; // another generic counter
+    var health_list = [];
+    var hlc = 0; // health list counter
+    var gc1 = 0; // generic counter
+    var pos_list = [];
+    var plc = 0;
+    var gc2 = 0;
+
 
     /**
         LOAD THE GAME DATA
-        AJAX function to fetch all data from the PHP classes
+        AJAX function to fetch all data from PHP
+     *
+     * Couldn't achieve it all with one function
+     * Several separate functions below
+     *
      */
 
-    function ajaxLink(req_param){
-        $.post("classes/GameLogic.php",
-            {'param':req_param},
-            function(data){
-            alert(data);
+    // fetch names AJAX request
+    function fetchNames(){
+        $.ajax({
+            method: "POST",
+            url: "classes/GameLogic.php",
+            data: { param: "names" }, // parse what we're looking for
+            success: function(data){
+                // process the data
+                names_list = data.split(',');
+            },
+            error:function () {
+                console.log("Error: Name retrieval");
+            }
         });
     }
 
-    ajaxLink("names");
+    // fetch health AJAX request
+    function fetchHealth(){
+        $.ajax({
+            method: "POST",
+            url: "classes/GameLogic.php",
+            data: { param: "health" }, // parse what we're looking for
+            success: function(data){
+                // process the data
+                health_list = data.split(',');
+            },
+            error:function () {
+                console.log("Error: Health retrieval");
+            }
+        });
+    }
 
+    // fetch the positions
+    function fetchPositions(){
+        $.ajax({
+            method: "POST",
+            url: "classes/GameLogic.php",
+            data: { param: "pos" }, // parse what we're looking for
+            success: function(data){
+                // process the data
+                pos_list = data.split(',');
+            },
+            error:function () {
+                console.log("Error: Pos retrieval");
+            }
+        });
+    }
+
+    // de-clutter the draw function
+    function checkCounters(counter, max){
+        if(counter<max-1){
+            counter++;
+        }else{
+            counter=0;
+        }
+
+        return counter;
+    }
 
     // generate the floor tiles
     function generateFloorTiles(redraw) {
@@ -287,7 +348,7 @@ $(document).ready(function() {
     }
 
     // draw the minions function
-    function drawMinion(minion_count, minion_health){
+    function drawMinion(minion_count){
         // set the minion image element
         var minion_img = new Image();
         minion_img.src = "resources/enemies/minion.png";
@@ -296,164 +357,55 @@ $(document).ready(function() {
         ctx.fillStyle = "#fff";
 
         // coordinates counter
-        var y_counter = 90;
-        var x_counter = 470;
+        var x_counter = pos_list[gc2];
+        var y_counter = pos_list[gc2+1];
 
         // generic
         var i = 0;
 
         // draw 4 minions across from the player
 
+        // reset before we begin
+        gc1 = 0;
+
         for(i=0;i<minion_count;i++){
-            // to the right of the player, in equal Y intervals
-            if(x_counter===470){
-                ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                //draw name
-                ctx.fillText("Minion",x_counter+2, y_counter +75);
-                // draw health
-                ctx.fillText(minion_health,x_counter+5, y_counter +95);
+            // get the number of elements in the arrays
+            names_list_c = names_list.length;
+            hlc = health_list.length;
+            plc = pos_list.length;
 
-                // increment
-                x_counter = 510;
+            // set the counters, for the other elements' positions
+            // the control box below is necessary, as there are 2 pos (x,y) for each other element
+            // ...it's quick and dirty - I'll fix it, promise
+            if(gc1===0){
+                x_counter = parseInt(pos_list[0]);
+                y_counter = parseInt(pos_list[1]);
             }else{
-                ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                //draw name
-                ctx.fillText("Minion",x_counter+2, y_counter +75);
-                // draw health
-                ctx.fillText(minion_health,x_counter+5, y_counter +95);
-
-                // reset
-                x_counter = 470;
+                x_counter = parseInt(pos_list[gc1+gc1]);
+                y_counter = parseInt(pos_list[gc1+gc1+1]);
             }
-            y_counter+=90; // increment the position
-        }
 
-        /**
-         *
-         * The code below flips the enemies, it does work, but not as intended.
-         * Currently rolled back to drawing on the right only
-         *
-         *
-        if(player_x < 468){
-            // draw to the right
+            // to the right of the player, in equal Y intervals
+            ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+            //draw name
+            ctx.fillText(names_list[gc1],x_counter+2, y_counter +75);
+            // draw health
+            ctx.fillText(health_list[gc1],x_counter+5, y_counter +95);
 
-            for(i=0;i<minion_count;i++){
-                // to the right of the player, in equal Y intervals
-                if(x_counter===470){
-                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                    //draw name
-                    ctx.fillText("Minion",x_counter+2, y_counter +75);
-                    // draw health
-                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
 
-                    // increment
-                    x_counter = 510;
-                }else{
-                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                    //draw name
-                    ctx.fillText("Minion",x_counter+2, y_counter +75);
-                    // draw health
-                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
-
-                    // reset
-                    x_counter = 470;
-                }
-                y_counter+=90; // increment the position
-            }
-        }else{
-            // draw to the left
-
-            // flip the image
-            minion_img.src = "resources/enemies/minion_r.png";
-
-            // adjust counter
-            x_counter = 370;
-
-            // to the left of the player, in equal Y intervals
-            for(i=0;i<minion_count;i++){
-                // to the left of the player, in equal Y intervals
-                if(x_counter===370){
-                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                    //draw name
-                    ctx.fillText("Minion",x_counter+2, y_counter +75);
-                    // draw health
-                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
-
-                    // increment
-                    x_counter = 250;
-                }else{
-                    ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-                    //draw name
-                    ctx.fillText("Minion",x_counter+2, y_counter +75);
-                    // draw health
-                    ctx.fillText(minion_health,x_counter+5, y_counter +95);
-
-                    // reset
-                    x_counter = 370;
-                }
-                y_counter+=90; // increment the position
-            }
-        }
-         */
-    }
-
-    /**
-     *
-     * This is severely broken, should be fixed soon
-     *
-     *
-     *
-     *
-     *
-    // main animation function
-    function animateMe(action) {
-        // check what to animate
-        if(action===1){
-            // animate run
-            cur_anim = "run"; // set the prefix
-
-            // define
-            var anim_counter = 0;
-            var path_to_img = "resources/player/run/frame";
-            var frame_counter = 1;
-            var player_img;
-            player_img = new Image();
-            player_img.src = path_to_img+frame_counter.toString()+".png";
-
-            while(action===1){
-                // loop animation
-                ctx.drawImage(player_img,player_x,player_y,55,65);
-                // change the frame
-                if(frame_counter<4){
-                    // increment to next frame
-                    frame_counter++;
-                }else{
-                    // reset the frames
-                    frame_counter = 1;
-                }
-
-                if(anim_counter===100){
-                    // break out
-                    action=0;
-                }
-
-                anim_counter++;
-                player_img.src = path_to_img+frame_counter.toString()+".png";
-            }
-        }else if(action===2){
-            // animate attack
-            cur_anim = "attack"; // set the prefix
-
-        }else if(action===3){
-            // animate defend
-            cur_anim = "defend"; // set the prefix
-        }else{
-            // DEFAULT
-            cur_anim = "ïdle"; // set to default
-
+            // increment all counters
+            gc1 = checkCounters(gc1,hlc); // health
+            //gen_counter = checkCounters(gen_counter,names_list_c); // names
+            //gc2 = checkCounters(gc2, plc-3); // positions
         }
     }
-     */
+
+    // attack function (player only ATM)
+    function swingSword(){
+        // check if the player was close to a minion
+
+
+    }
 
     // main draw function
     function draw() {
@@ -464,7 +416,7 @@ $(document).ready(function() {
             quickDraw(0);
 
             // draw the minions
-            drawMinion(minion_count,minion_health);
+            drawMinion(minion_count);
             // draw the boss
             drawBoss(boss_health);
         }else{
@@ -516,10 +468,9 @@ $(document).ready(function() {
         }
 
         // Increase frame and redraw
-        frame++;
-        requestAnimationFrame(draw);
+        //frame++;
+        //requestAnimationFrame( draw );
     }
-
 
     /**
      MAIN CONTROL FUNCTIONS BELOW
@@ -533,28 +484,28 @@ $(document).ready(function() {
                 // LEFT
                 player_x-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 100:
             case 39:
                 // RIGHT
                 player_x+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 115:
             case 40:
                 // DOWN
                 player_y+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 119:
             case 38:
                 // UP
                 player_y-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             default:
                 break;
@@ -568,25 +519,25 @@ $(document).ready(function() {
                 // LEFT
                 player_x-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 100:
                 // RIGHT
                 player_x+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 115:
                 // DOWN
                 player_y+=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             case 119:
                 // UP
                 player_y-=10;
                 ctx.clearRect(0, 0, 1000, 1000);
-                //draw();
+                draw();
                 break;
             default:
                 break;
@@ -609,6 +560,15 @@ $(document).ready(function() {
     draw();
     generateFloorTiles();
     drawPlayer(30,30);
+
+    // fetch the names from PHP
+    fetchNames();
+
+    // fetch the health
+    fetchHealth();
+
+    // fetch the positions
+    fetchPositions();
 
     // show the lore modal
     $('#lore_modal').modal('show');

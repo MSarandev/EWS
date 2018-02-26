@@ -26,6 +26,7 @@ class Humanoid
     public $pos_x; // the object's position on the horizontal axis
     public $pos_y;
 
+
     /**
      * @return mixed
      */
@@ -239,12 +240,19 @@ class Humanoid
 
 
     // Constructors below
-
     /**
      * Humanoid constructor.
+     * @param $name
+     * @param $health
+     * @param $pos_x
+     * @param $pos_y
      */
-    public function __construct()
+    public function __construct($name, $health, $pos_x, $pos_y)
     {
-        // empty constructor
+        $this->name = $name;
+        $this->health = $health;
+        $this->pos_x = $pos_x;
+        $this->pos_y = $pos_y;
     }
+
 }
