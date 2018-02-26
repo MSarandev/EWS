@@ -15,8 +15,8 @@ require_once('Humanoid.php');
 // create four minions
 $mi1 = new Humanoid("Arthur",5,470,90);
 $mi2 = new Humanoid("Jaina",5,510,180);
-$mi3 = new Humanoid("Theo",5,470,270);
-$mi4 = new Humanoid("Skeletor",5,510,360);
+$mi3 = new Humanoid("Theo",5,400,270);
+$mi4 = new Humanoid("Skeletor",5,550,360);
 
 
 // create an array with the values

@@ -11,6 +11,7 @@ $(document).ready(function() {
     var player_health_current;
     var player_defence_max;
     var player_defence_current;
+    var player_attack_power = 1; // DEFAULT
     var player_name = "Falcon";
     // tile prefix for generation
     var t_prefix = "tile_";
@@ -385,13 +386,14 @@ $(document).ready(function() {
                 y_counter = parseInt(pos_list[gc1+gc1+1]);
             }
 
-            // to the right of the player, in equal Y intervals
-            ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
-            //draw name
-            ctx.fillText(names_list[gc1],x_counter+2, y_counter +75);
-            // draw health
-            ctx.fillText(health_list[gc1],x_counter+5, y_counter +95);
-
+            if(names_list[gc1]!=="DEAD" || health_list[gc1]>0){
+                // to the right of the player, in equal Y intervals
+                ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                //draw name
+                ctx.fillText(names_list[gc1],x_counter+2, y_counter +75);
+                // draw health
+                ctx.fillText(health_list[gc1],x_counter+5, y_counter +95);
+            }
 
             // increment all counters
             gc1 = checkCounters(gc1,hlc); // health
@@ -404,7 +406,41 @@ $(document).ready(function() {
     function swingSword(){
         // check if the player was close to a minion
 
+        var inner_x = 0; // comparison value
+        var inner_y = 0; // comparison value
 
+        // go through all elements in the pos array
+        for (var i = 0; i < pos_list.length; i+=2) {
+            // set the vals
+            inner_x = pos_list[i];
+            inner_y = pos_list[i+1];
+
+            if(player_x+20===inner_x-20 || player_x+10===inner_x-10 &&
+                inner_y-10< player_y >inner_y+10){
+                // the minion is to the right of the player
+                // in good sword swinging distance
+
+                // decrease the health of the minion
+                if(i!==0) {
+                    health_list[i-1] = health_list[i-1] - player_attack_power;
+                }else if(i === 0){
+                    health_list[0] = health_list[0] - player_attack_power;
+                }
+
+                if(health_list[i-1]<=0 || health_list[0]<= 0){
+                    // Minion dead (yay)
+
+                    if(i!==0) {
+                        names_list[i-1] = "DEAD";
+                    }else if(i === 0){
+                        names_list[0] = "DEAD";
+                    }
+                }
+
+                break;
+            }
+
+        }
     }
 
     // main draw function
@@ -544,6 +580,13 @@ $(document).ready(function() {
         }
     });
 
+    /**
+     Attach click to allow attack
+     */
+    $("#main_plot").click(function () {
+       // call to function
+       swingSword();
+    });
 
     /**
      ON INITIALISATION (GAME START)
