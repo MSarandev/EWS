@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- Local JS and jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="jquery-3.3.1.js"></script>
     <script src="script.js" type="text/javascript"></script>
 
     <title>Dungeon Crawler</title>
@@ -86,7 +86,7 @@
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -163,17 +163,11 @@
         </div>
     </div>
 
-    <!-- Include all the php methods -->
-    <?php
-    // Supporting classes
-
-    ?>
-
     <!--Footer-->
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.1.14) | © 2018 Copyright:
+            (build 1.1.20) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

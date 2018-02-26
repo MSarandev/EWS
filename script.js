@@ -32,12 +32,23 @@ $(document).ready(function() {
     // minion count
     var minion_count = 4; // default all alive
     var minion_health = 10; // default
+    // returned data
+    var ret_data = [];
 
     /**
         LOAD THE GAME DATA
         AJAX function to fetch all data from the PHP classes
      */
 
+    function ajaxLink(req_param){
+        $.post("classes/GameLogic.php",
+            {'param':req_param},
+            function(data){
+            alert(data);
+        });
+    }
+
+    ajaxLink("names");
 
 
     // generate the floor tiles
@@ -217,6 +228,13 @@ $(document).ready(function() {
         player_img = new Image();
         player_img.src = path_to_img;
 
+        ctx.drawImage(player_img, x, y, 55, 65);
+
+/**
+ *
+ * The code below works, but not as intended. Could be fixed.
+ * Reverted to v..13 draw
+ *
         // check the player's orientation
         if(x<468){
             // looking right
@@ -232,6 +250,7 @@ $(document).ready(function() {
             // context draw image
             ctx.drawImage(player_img, x, y, 55, 65);
         }
+ */
 
         // Extra info to draw
         ctx.font = "16px Cabin";
@@ -258,33 +277,13 @@ $(document).ready(function() {
         var y_counter = 180;
         var x_counter = 750;
 
-        // generic
-        var i = 0;
+        // Draw the boss
 
-        if(player_x < 468){
-            // draw to the right
-
-            ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
-            //draw name
-            ctx.fillText("BOSS",x_counter+35, y_counter -15);
-            // draw health
-            ctx.fillText(boss_health,x_counter+45, y_counter);
-
-        }else{
-            // draw to the left
-
-            // flip the image
-            boss_img.src = "resources/enemies/boss_r.png";
-
-            // adjust counter
-            x_counter = 70;
-
-            ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
-            //draw name
-            ctx.fillText("BOSS",x_counter+35, y_counter -15);
-            // draw health
-            ctx.fillText(boss_health,x_counter+45, y_counter);
-        }
+        ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
+        //draw name
+        ctx.fillText("BOSS",x_counter+35, y_counter -15);
+        // draw health
+        ctx.fillText(boss_health,x_counter+45, y_counter);
     }
 
     // draw the minions function
@@ -304,6 +303,37 @@ $(document).ready(function() {
         var i = 0;
 
         // draw 4 minions across from the player
+
+        for(i=0;i<minion_count;i++){
+            // to the right of the player, in equal Y intervals
+            if(x_counter===470){
+                ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                //draw name
+                ctx.fillText("Minion",x_counter+2, y_counter +75);
+                // draw health
+                ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                // increment
+                x_counter = 510;
+            }else{
+                ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
+                //draw name
+                ctx.fillText("Minion",x_counter+2, y_counter +75);
+                // draw health
+                ctx.fillText(minion_health,x_counter+5, y_counter +95);
+
+                // reset
+                x_counter = 470;
+            }
+            y_counter+=90; // increment the position
+        }
+
+        /**
+         *
+         * The code below flips the enemies, it does work, but not as intended.
+         * Currently rolled back to drawing on the right only
+         *
+         *
         if(player_x < 468){
             // draw to the right
 
@@ -364,6 +394,7 @@ $(document).ready(function() {
                 y_counter+=90; // increment the position
             }
         }
+         */
     }
 
     /**

@@ -12,6 +12,7 @@ class Humanoid
      * Generic class to define all humanoid objects in the game
      */
 
+    public $name;
     public $level; // contains the object's level
     public $health; // contains the object's health
     public $attack_power; // contains the object's attack power
@@ -24,6 +25,22 @@ class Humanoid
     public $gold; // contains the amount of gold
     public $pos_x; // the object's position on the horizontal axis
     public $pos_y;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     // Getter/Setter below
 
@@ -225,32 +242,9 @@ class Humanoid
 
     /**
      * Humanoid constructor.
-     * @param $level
-     * @param $health
-     * @param $attack_power
-     * @param $defence
-     * @param $armour_level
-     * @param $head_slot
-     * @param $body_slot
-     * @param $legs_slot
-     * @param $weapon_slot
-     * @param $gold
-     * @param $pos_x
-     * @param $pos_y
      */
-    public function __construct($level, $health, $attack_power, $defence, $armour_level, $head_slot, $body_slot, $legs_slot, $weapon_slot, $gold, $pos_x, $pos_y)
+    public function __construct()
     {
-        $this->level = $level;
-        $this->health = $health;
-        $this->attack_power = $attack_power;
-        $this->defence = $defence;
-        $this->armour_level = $armour_level;
-        $this->head_slot = $head_slot;
-        $this->body_slot = $body_slot;
-        $this->legs_slot = $legs_slot;
-        $this->weapon_slot = $weapon_slot;
-        $this->gold = $gold;
-        $this->pos_x = $pos_x;
-        $this->pos_y = $pos_y;
+        // empty constructor
     }
 }
