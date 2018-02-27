@@ -5,8 +5,9 @@
  * Date: 31/01/2018
  * Time: 13:59
  */
+require_once('Humanoid.php');
 
-class Boss extends Minion
+class Boss extends Humanoid
 {
     /**
      * Defines the boss NPC class
@@ -31,6 +32,4 @@ class Boss extends Minion
     {
         $this->items = $items;
     } // defines the item dropped by the boss
-
-
 }

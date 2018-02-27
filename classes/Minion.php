@@ -6,34 +6,19 @@
  * Time: 13:52
  */
 
+require_once('Humanoid.php');
+
 class Minion extends Humanoid
 {
     /**
      * A more specific class to handle NPCs
      */
 
-    public $name; // contains the minion name
     public $zone; // defines which zone the minion is in
     public $alive;
 
 
     // Getter/Setter
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
 
     /**
      * @return mixed

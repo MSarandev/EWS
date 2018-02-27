@@ -7,6 +7,7 @@
  */
 // import the class
 require_once('Humanoid.php');
+require_once('Boss.php');
 
 /**
  * This class contains the main game logic
@@ -18,6 +19,9 @@ $mi2 = new Humanoid("Jaina",5,510,180);
 $mi3 = new Humanoid("Theo",5,400,270);
 $mi4 = new Humanoid("Skeletor",5,550,360);
 
+// create a boss
+$bs1 = new Boss("Lucky", 10, 750, 180);
+
 
 // create an array with the values
 $min_array = [$mi1,$mi2,$mi3,$mi4];
@@ -26,28 +30,26 @@ $min_array = [$mi1,$mi2,$mi3,$mi4];
 if($_POST['param']==="names"){
     // return the names
     foreach ($min_array as $minion) {
-        echo $minion->getName();
-        echo ",";
+        echo $minion->getName(), ",";
     }
 }elseif($_POST['param']==="health"){
     // get the health of the minions
     // return the names
     foreach ($min_array as $minion) {
-        echo $minion->getHealth();
-        echo ",";
+        echo $minion->getHealth(), ",";
     }
 
 }elseif($_POST['param']==="pos") {
     // get the health of the minions
     // return the names
     foreach ($min_array as $minion) {
-        echo $minion->getPosX();
-        echo ",";
-        echo $minion->getPosY();
-        echo ",";
+        echo $minion->getPosX(), ",",
+             $minion->getPosY(), ",";
     }
-
-}elseif($_POST['param']==="check_hit"){
-    // check if the player hit an enemy
-    echo "not done yey";
+}elseif($_POST['param']==="boss"){
+    // return all boss details
+    echo $bs1->getName(), ",",
+         $bs1->getHealth(), ",",
+         $bs1->getPosX(), ",",
+         $bs1->getPosY();
 }

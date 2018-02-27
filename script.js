@@ -23,26 +23,20 @@ $(document).ready(function() {
     var pick_rand = 1;
     // control the room generation
     var exit_room = 10;
-    // current animation
-    var cur_anim = "idle";
     // boss controller
     var boss_alive = true;
-    var boss_health = 20; // default
-    // frame data
-    var frame = 0;
     // minion count
     var minion_count = 4; // default all alive
-    var minion_health = 10; // default
     // returned data
     var names_list = []; // used later
     var names_list_c = 0; // counter
-    var gen_counter = 0; // another generic counter
     var health_list = [];
     var hlc = 0; // health list counter
     var gc1 = 0; // generic counter
     var pos_list = [];
-    var plc = 0;
-    var gc2 = 0;
+    var plc = 0; // position list counter
+    var gc2 = 0; // generic counter
+    var boss_details = [];
 
 
     /**
@@ -98,6 +92,22 @@ $(document).ready(function() {
             },
             error:function () {
                 console.log("Error: Pos retrieval");
+            }
+        });
+    }
+
+    // fetch boss details
+    function fetchBoss() {
+        $.ajax({
+            method: "POST",
+            url: "classes/GameLogic.php",
+            data: { param: "boss" }, // parse what we're looking for
+            success: function(data){
+                // process the data
+                boss_details = data.split(',');
+            },
+            error:function () {
+                console.log("Error: Boss retrieval");
             }
         });
     }
@@ -266,6 +276,22 @@ $(document).ready(function() {
         if(ex === 1){
             // THE PLAYER IS OUT OF BOUNDS, CREATE NEW ROOM
 
+            // reset the variable
+            boss_alive = true;
+
+            // pull the details again
+            // fetch the names from PHP
+            fetchNames();
+
+            // fetch the health
+            fetchHealth();
+
+            // fetch the positions
+            fetchPositions();
+
+            // fetch the boss
+            fetchBoss();
+
             // call the room generation function
             roomGeneration(1);
 
@@ -327,7 +353,7 @@ $(document).ready(function() {
     }
 
     // draw the boss function
-    function drawBoss(boss_health) {
+    function drawBoss() {
         // set the minion image element
         var boss_img = new Image();
         boss_img.src = "resources/enemies/boss.png";
@@ -336,16 +362,18 @@ $(document).ready(function() {
         ctx.fillStyle = "#fff";
 
         // coordinates counter
-        var y_counter = 180;
-        var x_counter = 750;
+        var y_counter = parseInt(boss_details[3]);
+        var x_counter = parseInt(boss_details[2]);
 
-        // Draw the boss
-
-        ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
-        //draw name
-        ctx.fillText("BOSS",x_counter+35, y_counter -15);
-        // draw health
-        ctx.fillText(boss_health,x_counter+45, y_counter);
+        // check if the boss is alive
+        if(boss_details[0]!=="DEAD" && boss_alive===true){
+            // Draw the boss
+            ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
+            //draw name
+            ctx.fillText(boss_details[0],x_counter+35, y_counter -15);
+            // draw health
+            ctx.fillText(boss_details[1],x_counter+45, y_counter);
+        }
     }
 
     // draw the minions function
@@ -361,15 +389,12 @@ $(document).ready(function() {
         var x_counter = pos_list[gc2];
         var y_counter = pos_list[gc2+1];
 
-        // generic
-        var i = 0;
-
         // draw 4 minions across from the player
 
         // reset before we begin
         gc1 = 0;
 
-        for(i=0;i<minion_count;i++){
+        for(var i=0;i<minion_count;i++){
             // get the number of elements in the arrays
             names_list_c = names_list.length;
             hlc = health_list.length;
@@ -406,17 +431,21 @@ $(document).ready(function() {
     function swingSword(){
         // check if the player was close to a minion
 
-        var inner_x = 0; // comparison value
-        var inner_y = 0; // comparison value
+        var minion_x = 0; // comparison value
+        var minion_y = 0; // comparison value
 
-        // go through all elements in the pos array
+        // pull the boss details too
+        var boss_x = parseInt(boss_details[2]);
+        var boss_y = parseInt(boss_details[3]);
+
+        // go through all elements in the pos array (Minion check)
         for (var i = 0; i < pos_list.length; i+=2) {
-            // set the vals
-            inner_x = pos_list[i];
-            inner_y = pos_list[i+1];
+            // set the values
+            minion_x = pos_list[i];
+            minion_y = pos_list[i+1];
 
-            if(player_x+20===inner_x-20 || player_x+10===inner_x-10 &&
-                inner_y-10< player_y >inner_y+10){
+            if(player_x+20===minion_x-20 || player_x+10===minion_x-10 &&
+                minion_y-10< player_y >minion_y+10){
                 // the minion is to the right of the player
                 // in good sword swinging distance
 
@@ -439,8 +468,32 @@ $(document).ready(function() {
 
                 break;
             }
-
         }
+
+
+        // Check if swinging at Boss
+        if(player_x+20===boss_x-20 || player_x+10===boss_x-10 &&
+            boss_y-10< player_y >boss_y+10){
+            // the boss is to the right of the player
+            // in good sword swinging distance
+
+            // decrease the health of the boss
+           boss_details[1] = boss_details[1] - player_attack_power;
+
+            if(boss_details[1]<=0 || boss_details[1]<= 0){
+                // Boss dead (yay)
+
+                // rename the boss
+                boss_details[0] = "DEAD";
+
+                // adjust variable
+                boss_alive = false;
+            }
+        }
+
+
+        // Finally call draw again, to show the damage
+        draw();
     }
 
     // main draw function
@@ -454,7 +507,7 @@ $(document).ready(function() {
             // draw the minions
             drawMinion(minion_count);
             // draw the boss
-            drawBoss(boss_health);
+            drawBoss();
         }else{
             // check if the player has killed all bosses
             if(boss_alive!==true) {
@@ -612,6 +665,9 @@ $(document).ready(function() {
 
     // fetch the positions
     fetchPositions();
+
+    // fetch the boss
+    fetchBoss();
 
     // show the lore modal
     $('#lore_modal').modal('show');
