@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!-- Created by Maxim Sarandev, bootstrap template, Copyright 2018 -->
 <!-- ART BY: http://www.thepinsta.com -->
 <!doctype html>
@@ -62,19 +63,29 @@
                     <div class="row justify-content-center"
                          id="stats_container">
                         <!-- Contains the current stats -->
-                        <div class="row-md">
-                            <img id="health_bar" width="77" height="298"
-                                    src="resources/player/bars/health/full.png">
-                            <img id="defence_bar" width="77" height="298"
-                                 src="resources/player/bars/defence/full.png">
-                        </div>
-                        <div class="w-100 d-none d-sm-block"></div>
-                        <div class="row-sm justify-content-end">
-                            <p id="attack_index">Attack power: 10</p>
+                        <h2>Your stats, knight</h2>
+                        <div class="row ml-5">
+                            <img src="https://cdn3.iconfinder.com/data/icons/retro-game-items/100/retro-11-512.png"
+                                 width="50" height="50">
+                            <p class="ml-2" id="health_index">Health: 10</p>
+
                             <div class="w-100 d-none d-sm-block"></div>
-                            <p id="defence_index">Defence power: 10</p>
+
+                            <img src="http://piq.codeus.net/static/media/userpics/piq_168286_400x400.png"
+                                 width="50" height="50">
+                            <p class="ml-2" id="attack_index">Attack power: 10</p>
+
                             <div class="w-100 d-none d-sm-block"></div>
-                            <p id="rooms_cleared">Rooms cleared: 0</p>
+
+                            <img src="http://piq.codeus.net/static/media/userpics/piq_242464_400x400.png"
+                                 width="50" height="50">
+                            <p class="ml-2" id="defence_index">Defence power: 10</p>
+
+                            <div class="w-100 d-none d-sm-block"></div>
+
+                            <img src="http://pixelartmaker.com/art/52c306f0214cb6d.png"
+                                 width="50" height="50">
+                            <p class="ml-2" id="rooms_cleared">Rooms cleared: 0</p>
                         </div>
                 </div>
                     <div class="row" id="ranking_container">
@@ -127,7 +138,7 @@
                         width="150"/>
                     <button type="button"
                             class="btn btn-dark btn-lg"
-                            data-dismiss="modal">Good luck doomed one</button>
+                            data-dismiss="modal" id="close_modal_btn">Good luck doomed one</button>
                     <img src="https://media.giphy.com/media/NUlBlZ17ATe1y/giphy.gif"
                          width="150"/>
                 </div>
@@ -166,7 +177,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.2.03) | © 2018 Copyright:
+            (build 1.2.05) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

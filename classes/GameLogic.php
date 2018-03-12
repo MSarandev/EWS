@@ -13,6 +13,9 @@ require_once('Boss.php');
  * This class contains the main game logic
  */
 
+// create the name holder
+$pl_name = "Falcon";
+
 // create four minions
 $mi1 = new Humanoid("Arthur",5,470,90);
 $mi2 = new Humanoid("Jaina",5,510,180);

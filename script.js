@@ -39,6 +39,9 @@ $(document).ready(function() {
     var boss_details = [];
     // door control
     var draw_doors = true; // default
+    var rooms_cleared = 0; // define the var
+    var minion_health_updated = false; // default
+    var boss_health_updated = false; // default
 
 
     /**
@@ -269,10 +272,26 @@ $(document).ready(function() {
         }
     }
 
+    // update the rooms cleared indicator
+    function roomsCleared() {
+        // increment
+        rooms_cleared++;
+
+        // find the element and change the val
+        $("#rooms_cleared").text("Rooms cleared: " + rooms_cleared.toString());
+    }
+
     // simplify the larger function
     function quickDraw(ex){
         if(ex === 1){
             // THE PLAYER IS OUT OF BOUNDS, CREATE NEW ROOM
+
+            // call to update
+            roomsCleared();
+
+            // reset both vars, enable health increment
+            boss_health_updated = false;
+            minion_health_updated = false;
 
             // reset the variable
             boss_alive = true;
@@ -372,8 +391,22 @@ $(document).ready(function() {
             ctx.drawImage(boss_img, x_counter, y_counter, 120, 165);
             //draw name
             ctx.fillText(boss_details[0],x_counter+35, y_counter -15);
-            // draw health
-            ctx.fillText(boss_details[1],x_counter+45, y_counter);
+            // check for cleared rooms
+            if(rooms_cleared!==0 && boss_health_updated===false){
+                var new_health = parseInt(boss_details[1]) + rooms_cleared + 5;
+
+                // update the array
+                boss_details[1] = new_health;
+
+                // draw health
+                ctx.fillText(new_health.toString(), x_counter + 45, y_counter);
+
+                // update the var
+                boss_health_updated = true;
+            }else {
+                // draw health
+                ctx.fillText(boss_details[1], x_counter + 45, y_counter);
+            }
         }
     }
 
@@ -417,8 +450,23 @@ $(document).ready(function() {
                 ctx.drawImage(minion_img, x_counter, y_counter, 50, 75);
                 //draw name
                 ctx.fillText(names_list[gc1],x_counter+2, y_counter +75);
-                // draw health
-                ctx.fillText(health_list[gc1],x_counter+5, y_counter +95);
+                // check for cleared rooms
+                if(rooms_cleared!==0 && minion_health_updated===false){
+                    // update the health
+                    var new_health = parseInt(health_list[gc1]) + rooms_cleared;
+
+                    // update the array
+                    health_list[gc1] = new_health;
+
+                    // draw health
+                    ctx.fillText(new_health.toString(), x_counter + 5, y_counter + 95);
+
+                    // update the variable
+                    minion_health_updated = true;
+                }else {
+                    // draw health
+                    ctx.fillText(health_list[gc1], x_counter + 5, y_counter + 95);
+                }
             }
 
             // increment all counters
@@ -563,6 +611,15 @@ $(document).ready(function() {
         //frame++;
         //requestAnimationFrame( draw );
     }
+
+
+    /**
+     *
+     * Player name submission below
+     *
+     */
+
+
 
     /**
      MAIN CONTROL FUNCTIONS BELOW

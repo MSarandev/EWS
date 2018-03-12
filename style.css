@@ -86,3 +86,6 @@ h1{
 #lore_modal_content, #alert_modal_content{
     background-color: #000;
 }
+#player_name_txt{
+    width: 100%;
+}
