@@ -7,10 +7,11 @@ $(document).ready(function() {
     //player data
     var player_x = 0;
     var player_y = 0;
-    var player_health_max;
-    var player_health_current;
-    var player_defence_max;
-    var player_defence_current;
+    var player_alive = true; // default
+    var player_health_max; // default
+    var player_health_current; // default
+    var player_defence_max; // default
+    var player_defence_current; // default
     var player_attack_power = 1; // DEFAULT
     var player_name = "Falcon";
     // tile prefix for generation
@@ -42,6 +43,7 @@ $(document).ready(function() {
     var rooms_cleared = 0; // define the var
     var minion_health_updated = false; // default
     var boss_health_updated = false; // default
+    var health_potion_counter = 10; // default
 
 
     /**
@@ -515,6 +517,14 @@ $(document).ready(function() {
                     }
                 }
 
+                // roll the dice on the item drop
+                var rand_drop = Math.floor((Math.random() * player_defence_max) + 1);
+
+                if(rand_drop===2){
+                    // Lucky, drop item
+                    dropItem(2);
+                }
+
                 break;
             }
         }
@@ -540,11 +550,72 @@ $(document).ready(function() {
 
                 // open the doors
                 draw_doors = false;
+
+                // drop an item
+                dropItem(2);
             }
         }
 
+        // strike the player back, maybe...
+        var rand = Math.floor((Math.random() * player_defence_max) + 1);
+
+        if(rand === 5 || rand === 3){
+            // unlucky, strike back
+            strikeBack();
+        }
+
+        // update the potion UI
+        updatePotions();
+
         // Finally call draw again, to show the damage
         draw();
+    }
+
+    // enemies attack function
+    function strikeBack() {
+        // check if the player is alive
+        if(player_health_current!==0){
+            // strike
+            player_health_current--;
+        }else if(player_health_current<=0){
+            // HE'S DEAD JIM
+            player_alive = false;
+            // call the function
+            alert("You're dead buddy");
+        }
+    }
+
+    // drink a health potion
+    function drinkHealthPotion(){
+
+        // check if the player has any
+        if(health_potion_counter!==0) {
+            // decrease the counter
+            health_potion_counter--;
+
+            // increase the health
+            player_health_current = player_health_max;
+
+            // update the UI
+            $("#potion_counter").text(health_potion_counter);
+
+            // update
+            draw();
+        }else{
+            alert("You're out of potions");
+        }
+    }
+
+    // update the potion counter
+    function updatePotions() {
+        // update the health potion
+        $("#potion_counter").text(health_potion_counter);
+    }
+
+    // drop item
+    function dropItem(number) {
+        // at the moment, drop health potions only
+        health_potion_counter += number;
     }
 
     // main draw function
@@ -701,6 +772,16 @@ $(document).ready(function() {
        swingSword();
     });
 
+
+    /**
+
+        Attach click to allow potion drinking
+
+     */
+
+    $("#sock_1").click(function () {
+       drinkHealthPotion();
+    });
     /**
      ON INITIALISATION (GAME START)
      */
@@ -728,6 +809,21 @@ $(document).ready(function() {
 
     // fetch the boss
     fetchBoss();
+
+    // show the number of potions
+    $("#potion_counter").text(health_potion_counter);
+
+    // show the health
+    $("#health_index").text(player_health_max);
+
+    // show the defence power
+    $("#defence_index").text(player_defence_max);
+
+    // show the attack power
+    $("#attack_index").text(player_attack_power);
+
+    // show the rooms cleared
+    $("#rooms_cleared").text(rooms_cleared);
 
     // show the lore modal
     $('#lore_modal').modal('show');

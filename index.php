@@ -43,17 +43,24 @@
                     <!-- Contains the inventory -->
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_1">
+                                <!-- Health Potion -->
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/h_potion.png"
+                                         width="50" height="50">
+                                    <p id="potion_counter">2</p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_2">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_3">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_4">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_5">Item socket</div>
                             <div class="w-100"></div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
-                            <div class="col-sm i_sock">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_6">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_7">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_8">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_9">Item socket</div>
+                            <div class="col-sm i_sock" id="sock_10">Item socket</div>
                         </div>
                     </div>
                 </div>
@@ -88,9 +95,9 @@
                             <p class="ml-2" id="rooms_cleared">Rooms cleared: 0</p>
                         </div>
                 </div>
-                    <div class="row" id="ranking_container">
+                    <div class="row justify-content-center" id="ranking_container">
                         <!-- Contains the ranking system -->
-                        Ranking
+                        <h2>The league of the dead</h2>
                     </div>
             </div>
         </div>
@@ -177,7 +184,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.2.05) | © 2018 Copyright:
+            (build 1.2.07) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">
