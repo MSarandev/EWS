@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<!-- Created by Maxim Sarandev, bootstrap template, Copyright 2018 -->
+<!-- Created by Maxim Sarandev, Bootstrap template, Copyright 2018 -->
 <!-- ART BY: http://www.thepinsta.com -->
 <!doctype html>
 <html lang="en">
@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=yes">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Local CSS -->
     <link rel="stylesheet" href="style.css">
@@ -97,7 +98,21 @@
                 </div>
                     <div class="row justify-content-center" id="ranking_container">
                         <!-- Contains the ranking system -->
-                        <h2>The league of the dead</h2>
+                        <div class="row w-100">
+                            <h2>The league of the dead</h2>
+                        </div>
+                        <div class="row w-100 h-100">
+                            <ul id="ranking_list" class="list-group list-group-flush align-items-start">
+                                <li class="list-group-item w-100">
+                                    <span class="badge badge-dark badge-pill"> 1 </span>
+                                    Test TEST TEST TEST
+                                </li>
+                                <li class="list-group-item w-100">
+                                    <span class="badge badge-dark badge-pill"> 2 </span>
+                                    Test TEST TEST TEST
+                                </li>
+                            </ul>
+                        </div>
                     </div>
             </div>
         </div>

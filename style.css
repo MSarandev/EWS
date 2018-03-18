@@ -69,6 +69,14 @@ h1{
     background-color: rgba(0,0,0,0.5);
 }
 
+#ranking_list{
+    color: #000;
+    height: 350px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /*Control the character name appearance*/
 #character_name{
     font-family: Niconne, "Times New Roman", Times, serif;
@@ -88,4 +96,25 @@ h1{
 }
 #player_name_txt{
     width: 100%;
+}
+
+/* Scrollbars */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

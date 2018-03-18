@@ -55,4 +55,26 @@ if($_POST['param']==="names"){
          $bs1->getHealth(), ",",
          $bs1->getPosX(), ",",
          $bs1->getPosY();
+}elseif($_POST['param']==="data_pull"){
+    // pull the ranking data from the DB
+
+    $dbconn = pg_connect("host=localhost dbname=EWS user=postgres password=postgres")
+    or die('Could not connect: ' . pg_last_error());
+
+    // Performing SQL query
+    $query = 'SELECT "Username","Rooms_cleared" FROM public.user_ranking_table';
+    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+
+    // Printing results in HTML
+    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+        foreach ($line as $col_value) {
+            echo $col_value, ",";
+        }
+    }
+
+    // Free resultset
+    pg_free_result($result);
+
+    // Closing connection
+    pg_close($dbconn);
 }
