@@ -630,15 +630,12 @@ $(document).ready(function() {
             data: { param: "data_pull" }, // parse what we're looking for
             success: function(data){
                 // process the data
-                ranking_details = data.split(',');
+                alert(data);
             },
             error:function () {
                 console.log("Error: Ranking Details retrieval");
             }
         });
-
-        // alert the resutls
-        alert(ranking_details);
     }
 
     $("#sock_10").click(function () {

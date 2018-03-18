@@ -13,6 +13,11 @@ require_once('Boss.php');
  * This class contains the main game logic
  */
 
+// def the credentials
+$user = "php_conn";
+$pass = "phpconn";
+
+
 // create the name holder
 $pl_name = "Falcon";
 
@@ -28,6 +33,9 @@ $bs1 = new Boss("Lucky", 10, 750, 180);
 
 // create an array with the values
 $min_array = [$mi1,$mi2,$mi3,$mi4];
+
+// database connection
+$db = pg_connect("host=localhost:5432 dbname=EWS user=php_conn password=phpconn");
 
 // Respond to AJAX
 if($_POST['param']==="names"){
@@ -58,23 +66,10 @@ if($_POST['param']==="names"){
 }elseif($_POST['param']==="data_pull"){
     // pull the ranking data from the DB
 
-    $dbconn = pg_connect("host=localhost dbname=EWS user=postgres password=postgres")
-    or die('Could not connect: ' . pg_last_error());
+    $result = "None";
 
-    // Performing SQL query
-    $query = 'SELECT "Username","Rooms_cleared" FROM public.user_ranking_table';
-    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+    // Perform the SQL query
+    $result = pg_exec($db, 'Select * From public."userRankingTable"');
 
-    // Printing results in HTML
-    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
-        foreach ($line as $col_value) {
-            echo $col_value, ",";
-        }
-    }
-
-    // Free resultset
-    pg_free_result($result);
-
-    // Closing connection
-    pg_close($dbconn);
+    echo $result;
 }
