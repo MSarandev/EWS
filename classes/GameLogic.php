@@ -85,4 +85,32 @@ if($_POST['param']==="names"){
     }
 
     mysqli_close($db_conn);
+}elseif($_POST['param']==="data_push"){
+    // adding a new player to the ranking
+
+    $player_name = $_POST['name']; // get the name from the request
+    $rooms_cleared = (int)$_POST['rooms']; // get the number of rooms
+
+    // double check the contents
+    if(ctype_alnum($player_name)){
+        // create the SQL query
+
+        // the query tries to update the record, if it exists, otherwise - create new
+        $sql = "INSERT INTO userrankingtable (username, roomsCleared) VALUES('$player_name', $rooms_cleared)";
+
+        // test the connection
+        if (!$db_conn) {
+            die('Could not connect: ' . mysqli_error($db_conn));
+        }
+
+        // run the query
+        mysqli_query($db_conn,$sql)
+        or die(mysqli_error($db_conn));
+
+        // control echo
+        echo "Op complete";
+
+        // close the conn
+        mysqli_close($db_conn);
+    }
 }

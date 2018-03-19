@@ -594,7 +594,7 @@ $(document).ready(function() {
             // HE'S DEAD JIM
             player_alive = false;
             // call the function
-            alert("You're dead buddy");
+            playerDied();
         }
     }
 
@@ -632,11 +632,57 @@ $(document).ready(function() {
     }
 
     // death screen drawing
-    function palyerDied(){
+    function playerDied(){
         // disable the canvas
-        canvas.disable();
+        canvas.attr("disabled", "disabled");
 
+        // update the elements
+        $("#death_info_1").text("Sword swings: " + sword_swings);
+        $("#death_info_2").text("Minions slayed: " + minions_killed);
+        $("#death_info_3").text("Rooms traversed: " + rooms_cleared);
 
+        // open the death modal
+        $("#player_died_modal").modal('show');
+    }
+
+    // add player data to database
+    function addToRankings(){
+        var control_data;
+        var username = $("#player_name_txt").val();
+
+        if(username!==""){
+            // not empty, matches regex
+
+            // create an AJAX request to push to the DB
+            $.ajax({
+                method: "POST",
+                url: "classes/GameLogic.php",
+                data: { param: "data_push", name: username, rooms: rooms_cleared }, // parse what we're looking for
+                success: function(data){
+                    // process the data
+                    control_data = data;
+
+                    // check the returned data
+                    if(control_data==="Op complete"){
+                        // everything OK
+
+                        // hide this modal
+                        $("#player_died_modal").modal('hide');
+
+                        // show the try again modal
+                        $("#try_again_modal").modal('show');
+                    }
+                },
+                error:function () {
+                    console.log("Error: Ranking push failed");
+                }
+            });
+        }else{
+            // alert to the issue
+            alert("We need your name, before saving");
+            // clear the value
+            $("#player_name_txt").val("");
+        }
     }
 
     // pull the ranking data
@@ -686,6 +732,12 @@ $(document).ready(function() {
 
         // increment
         data_pull_requests++;
+    }
+
+    // try again function
+    function tryAgain() {
+        // reload the page
+        window.location.reload();
     }
 
     // main draw function
@@ -907,5 +959,15 @@ $(document).ready(function() {
         // Pull the ranking data
         pullRankingData();
         displayRankings();
+    });
+
+    // attach the save rankings to the modal button
+    $("#save_player_data_btn").click(function () {
+       addToRankings();
+    });
+
+    // attach the try again function to the button
+    $("#try_again_btn").click(function () {
+       tryAgain();
     });
 });

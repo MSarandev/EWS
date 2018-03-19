@@ -99,6 +99,18 @@ h1{
     background-color: #000;
 }
 
+/* Control modal appearance (2) */
+#try_again_modal{
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+}
+#try_again_modal_title{
+    font-family: Niconne, "Times New Roman", Times, serif;
+}
+#try_again_modal_content{
+    background-color: #000;
+}
+
 /* Death modal style */
 #lore_modal, #alert_modal{
     color: #fff;

@@ -212,11 +212,31 @@
         </div>
     </div>
 
+    <!-- Try again modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="try_again_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="try_again_modal_content">
+                <div class="modal-header">
+                    <h2 class="modal-title"
+                        id="try_again_modal_title">Dare to try again?</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Dare to try your luck again, adventurer?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button"
+                            class="btn btn-dark btn-lg"
+                            id="try_again_btn">Give me my sword back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--Footer-->
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.2.07) | © 2018 Copyright:
+            (build 1.3.01) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">
