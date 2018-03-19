@@ -46,6 +46,9 @@ $(document).ready(function() {
     var minion_health_updated = false; // default
     var boss_health_updated = false; // default
     var health_potion_counter = 10; // default
+    // death screen counters
+    var sword_swings = 0; // swings
+    var minions_killed = 0; // minions kille
 
 
     /**
@@ -566,6 +569,9 @@ $(document).ready(function() {
             strikeBack();
         }
 
+        // update the swing counter
+        sword_swings++;
+
         // update the potion UI
         updatePotions();
 
@@ -620,10 +626,17 @@ $(document).ready(function() {
         health_potion_counter += number;
     }
 
+    // death screen drawing
+    function palyerDied(){
+        // disable the canvas
+        canvas.disable();
+
+
+    }
+
     // pull the ranking data
     function pullRankingData(){
         // AJAX request for data pull
-
         $.ajax({
             method: "POST",
             url: "classes/GameLogic.php",

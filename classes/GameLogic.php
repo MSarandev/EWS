@@ -9,14 +9,12 @@
 require_once('Humanoid.php');
 require_once('Boss.php');
 
+// include the DB connection file
+include('../src/db_conn.php');
+
 /**
  * This class contains the main game logic
  */
-
-// def the credentials
-$user = "php_conn";
-$pass = "phpconn";
-
 
 // create the name holder
 $pl_name = "Falcon";
@@ -34,8 +32,6 @@ $bs1 = new Boss("Lucky", 10, 750, 180);
 // create an array with the values
 $min_array = [$mi1,$mi2,$mi3,$mi4];
 
-// database connection
-$db = pg_connect("host=localhost:5432 dbname=EWS user=php_conn password=phpconn");
 
 // Respond to AJAX
 if($_POST['param']==="names"){
@@ -66,10 +62,27 @@ if($_POST['param']==="names"){
 }elseif($_POST['param']==="data_pull"){
     // pull the ranking data from the DB
 
-    $result = "None";
+    // db_conn is defined externally
 
-    // Perform the SQL query
-    $result = pg_exec($db, 'Select * From public."userRankingTable"');
+    // test the connection
+    if (!$db_conn) {
+        die('Could not connect: ' . mysqli_error($db_conn));
+    }
 
-    echo $result;
+    // create the SQL
+    $sql = "Select * from userrankingtable";
+
+    // fetch result
+    if ($result = $db_conn->query($sql)) {
+
+        /* fetch object array */
+        while ($row = $result->fetch_row()) {
+            echo $row[1], ",", $row[2], ",";
+        }
+
+        /* free result set */
+        $result->close();
+    }
+
+    mysqli_close($db_conn);
 }

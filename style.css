@@ -84,6 +84,18 @@ h1{
 }
 
 /* Control the modal appearance */
+#player_died_modal{
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+}
+#player_died_modal_title{
+    font-family: Niconne, "Times New Roman", Times, serif;
+}
+#player_died_modal_content{
+    background-color: #000;
+}
+
+/* Death modal style */
 #lore_modal, #alert_modal{
     color: #fff;
     font-family: Cabin, "Times New Roman", Times, serif;
@@ -97,7 +109,6 @@ h1{
 #player_name_txt{
     width: 100%;
 }
-
 /* Scrollbars */
 /* width */
 ::-webkit-scrollbar {

@@ -26,7 +26,6 @@
         <h1>Dungeon Crawler v. 1.1</h1>
     </div>
 
-
     <div class="container-fluid h-100">
         <div class="row justify-content-center h-100">
             <div class="col-8 order-first h-100">
@@ -190,6 +189,31 @@
                     <button type="button"
                             class="btn btn-dark btn-lg"
                             data-dismiss="modal">Face your fears</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player died modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="player_died_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="player_died_modal_content">
+                <div class="modal-header">
+                    <h2 class="modal-title"
+                        id="player_died_modal_title">One with the spirits</h2>
+                </div>
+                <div class="modal-body">
+                    <p>So, you met your demise. Your time in the flesh earned you:</p>
+                    <p id="death_info_1">1</p>
+                    <p id="death_info_2">2</p>
+                    <p id="death_info_3">3</p>
+                    <label for="player_name_txt">Enter your name, for others to ponder upon your success</label>
+                    <input type="text" id="player_name_txt" placeholder="Your name here">
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button"
+                            class="btn btn-dark btn-lg"
+                            id="save_player_data_btn">Forever remember my failures</button>
                 </div>
             </div>
         </div>
