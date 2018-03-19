@@ -77,6 +77,10 @@ h1{
     overflow-x: hidden;
 }
 
+.list-group-item{
+    width: 100%;
+}
+
 /*Control the character name appearance*/
 #character_name{
     font-family: Niconne, "Times New Roman", Times, serif;

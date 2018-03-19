@@ -101,16 +101,9 @@
                             <h2>The league of the dead</h2>
                         </div>
                         <div class="row w-100 h-100">
-                            <ul id="ranking_list" class="list-group list-group-flush align-items-start">
-                                <li class="list-group-item w-100">
-                                    <span class="badge badge-dark badge-pill"> 1 </span>
-                                    Test TEST TEST TEST
-                                </li>
-                                <li class="list-group-item w-100">
-                                    <span class="badge badge-dark badge-pill"> 2 </span>
-                                    Test TEST TEST TEST
-                                </li>
-                            </ul>
+                            <ol id="ranking_list" class="list-group list-group-flush align-items-start">
+
+                            </ol>
                         </div>
                     </div>
             </div>

@@ -15,7 +15,7 @@ $(document).ready(function() {
     var player_attack_power = 1; // DEFAULT
     var player_name = "Falcon";
     // ranking details holder
-    var ranking_details;
+    var ranking_data = [];
     // tile prefix for generation
     var t_prefix = "tile_";
     // tile max number
@@ -49,6 +49,8 @@ $(document).ready(function() {
     // death screen counters
     var sword_swings = 0; // swings
     var minions_killed = 0; // minions kille
+    // data pull requests
+    var data_pull_requests = 0;
 
 
     /**
@@ -520,6 +522,9 @@ $(document).ready(function() {
                     }else if(i === 0){
                         names_list[0] = "DEAD";
                     }
+
+                    // increment the counter
+                    minions_killed++;
                 }
 
                 // roll the dice on the item drop
@@ -643,7 +648,7 @@ $(document).ready(function() {
             data: { param: "data_pull" }, // parse what we're looking for
             success: function(data){
                 // process the data
-                alert(data);
+                ranking_data = data.split(',');
             },
             error:function () {
                 console.log("Error: Ranking Details retrieval");
@@ -651,9 +656,37 @@ $(document).ready(function() {
         });
     }
 
-    $("#sock_10").click(function () {
-       pullRankingData();
-    });
+    // display ranking data
+    function displayRankings() {
+        // check if not empty
+        if(ranking_data.length !== 0){
+            // define the vars
+            var username;
+            var rooms;
+            var rank = 1;
+
+            // for each player in the ranks
+            for(var i=0;i<ranking_data.length-1;i++){
+                username = ranking_data[i];
+                rooms = ranking_data[i+1];
+
+                // add new list item
+                $("#ranking_list").append("<li class='list-group-item'>"+rank+" | Name:"+username+" | Rooms:"+rooms+"</li>");
+
+                // increment
+                i++;
+                rank ++;
+            }
+        }else if(ranking_data.length !== 0 && data_pull_requests<2){
+            // TODO: KNOWN ISSUE
+            // data pull failed, try again (up to 2 times)
+            pullRankingData();
+            displayRankings();
+        }
+
+        // increment
+        data_pull_requests++;
+    }
 
     // main draw function
     function draw() {
@@ -864,4 +897,15 @@ $(document).ready(function() {
 
     // show the lore modal
     $('#lore_modal').modal('show');
+
+    // Pull the ranking data
+    pullRankingData();
+    displayRankings();
+
+    // attach the data pull to the close modal button
+    $("#close_modal_btn").click(function () {
+        // Pull the ranking data
+        pullRankingData();
+        displayRankings();
+    });
 });
