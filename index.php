@@ -22,6 +22,18 @@
     <title>Dungeon Crawler</title>
 </head>
 <body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="jquery-3.3.1.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
     <div class="container-fluid justify-content-center">
         <h1>Dungeon Crawler</h1>
     </div>
@@ -70,6 +82,8 @@
                                 <!-- Health Potion -->
                                 <div class="row justify-content-center">
                                     <img src="resources/items/h_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="Health potion"
                                          width="50" height="50">
                                     <p id="potion_counter">1</p>
                                 </div>
@@ -93,7 +107,7 @@
                     <div class="row justify-content-center"
                          id="stats_container">
                         <!-- Contains the current stats -->
-                        <h2>Your experience</h2>
+                        <h2>XP watch</h2>
                         <div class="w-100"></div>
                         <div class="row w-100 justify-content-center">
                             <p id="level_holder_p">Level 1</p>
@@ -111,25 +125,33 @@
                         <h4>Your stats, knight</h4>
                         <div class="row ml-5">
                             <img src="https://cdn3.iconfinder.com/data/icons/retro-game-items/100/retro-11-512.png"
-                                 width="50" height="50">
+                                 width="50" height="50"
+                                 data-toggle="tooltip" data-placement="top"
+                                 title="Your maximum health">
                             <p class="ml-2" id="health_index">Health: 10</p>
 
                             <div class="w-100 d-none d-sm-block"></div>
 
                             <img src="http://piq.codeus.net/static/media/userpics/piq_168286_400x400.png"
-                                 width="50" height="50">
+                                 width="50" height="50"
+                                 data-toggle="tooltip" data-placement="top"
+                                 title="Your attack power">
                             <p class="ml-2" id="attack_index">Attack power: 10</p>
 
                             <div class="w-100 d-none d-sm-block"></div>
 
                             <img src="http://piq.codeus.net/static/media/userpics/piq_242464_400x400.png"
-                                 width="50" height="50">
+                                 width="50" height="50"
+                                 data-toggle="tooltip" data-placement="top"
+                                 title="Your defence power (applied passively)">
                             <p class="ml-2" id="defence_index">Defence power: 10</p>
 
                             <div class="w-100 d-none d-sm-block"></div>
 
                             <img src="http://pixelartmaker.com/art/52c306f0214cb6d.png"
-                                 width="50" height="50">
+                                 width="50" height="50"
+                                 data-toggle="tooltip" data-placement="top"
+                                 title="Number of rooms cleared">
                             <p class="ml-2" id="rooms_cleared">Rooms cleared: 0</p>
                         </div>
                 </div>
@@ -147,16 +169,6 @@
             </div>
         </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="jquery-3.3.1.js"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
 
     <!-- Lore Modal (from Bootstrap example) -->
     <div class="modal" id="lore_modal" tabindex="-1" role="dialog">
@@ -225,6 +237,40 @@
         </div>
     </div>
 
+    <!-- New item unlock-->
+    <div class="modal" tabindex="-1" role="dialog" id="new_item_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="new_item_modal_content">
+                <div class="modal-header">
+                    <h2 class="modal-title"
+                        id="new_item_modal_title">Loot</h2>
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The boss was carrying some loot. You might want to use it.</p>
+                    <div class="row w-100 justify-content-center" id="gift_item_slot">
+                        <img id="boss_item_img"
+                        src="resources/items/empty.png"
+                        width="80" height="80"/>
+                    </div>
+                    <p id="item_info_text"></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button"
+                            class="btn btn-success btn-lg"
+                            id="button_equip_item"
+                            data-dismiss="modal">Equip the item</button>
+                    <button type="button"
+                            class="btn btn-warning btn-lg"
+                            data-dismiss="modal">I don't need this</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Player died modal -->
     <div class="modal" tabindex="-1" role="dialog" id="player_died_modal">
         <div class="modal-dialog" role="document">
@@ -274,7 +320,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.3.4) | © 2018 Copyright:
+            (build 1.3.5) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

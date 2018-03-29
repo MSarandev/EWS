@@ -63,9 +63,8 @@ $(document).ready(function() {
     var current_level = 1; //default
     var block_width = 1; // default
     var block_value = 1;
-
-    /** important */
-    var el_max_width = 100; //default
+    var item_modal_shown = false; // default
+    var item_dropped = 0; // default
 
 
     /**
@@ -341,6 +340,9 @@ $(document).ready(function() {
 
             // draw the player
             drawPlayer(player_x,player_y);
+
+            // update the loot dialog
+            item_modal_shown = false;
         }else{
             // THE PLAYER IS WITHIN BOUNDS
 
@@ -590,6 +592,17 @@ $(document).ready(function() {
 
                 // drop an item
                 dropItem(2);
+
+                // drop a gear upgrade, maybe...
+                rand = Math.floor((Math.random() * player_defence_current) + 1);
+
+                if(rand === 5){
+                    // lucky, drop item
+                    dropBossItem(1);
+                }else{
+                    // unlucky, that happens too
+                    dropBossItem(0);
+                }
             }
         }
 
@@ -656,6 +669,129 @@ $(document).ready(function() {
     function dropItem(number) {
         // at the moment, drop health potions only
         health_potion_counter += number;
+
+        // show the animation
+        itemDropAnimation("potion_counter");
+    }
+
+    // drop a custom item (Boss only)
+    function dropBossItem(param) {
+        var text = $("#item_info_text"); // define the element
+        var img = $("#boss_item_img"); // define the element
+
+        // have we shown the dialog before
+        if(item_modal_shown===false) {
+            // check the drop rate
+            if (param !== 3) {
+                // drop item confirmed
+
+                // roll the dice on the type of item
+                var rand_drop = Math.floor((Math.random() * 3) + 1);
+
+                if (rand_drop === 1) {
+                    // HEAD
+
+                    // check if the head slot is at max level
+                    if (item_level_head <= 10) {
+                        // increment
+                        item_level_head++;
+
+                        // define the img src
+                        img.attr("src", "resources/items/head/" + up_item_pfix + item_level_head + ".png");
+
+                        // define the text element
+                        text.text("You looted a level " + item_level_head + " head armour");
+
+                        // update the loot value holder
+                        item_dropped = rand_drop & item_level_head;
+                    } else {
+                        // TODO: EXPAND THIS
+                        // drop nothing (for now)
+
+                        // define the img src
+                        img.attr("src","resources/items/empty.png");
+
+                        // define the text element
+                        text.text("Spiders are loot technically...");
+                    }
+                } else if (rand_drop === 2) {
+                    // CHEST
+
+                    // check if the head slot is at max level
+                    if (item_level_chest <= 10) {
+                        // increment
+                        item_level_chest++;
+
+                        // define the img src
+                        img.attr("src","resources/items/chest/" + up_item_pfix + item_level_chest + ".png");
+
+                        // define the text element
+                        text.text("You looted a level " + item_level_chest + " chest armour");
+
+                        // update the loot value holder
+                        item_dropped = rand_drop & item_level_chest;
+                    } else {
+                        // TODO: EXPAND THIS
+                        // drop nothing (for now)
+
+                        // define the img src
+                        img.attr("src","resources/items/empty.png");
+
+                        // define the text element
+                        text.text("Spiders are loot technically...");
+                    }
+                } else if (rand_drop === 3) {
+                    // WEAPON
+
+                    // check if the head slot is at max level
+                    if (item_level_weapon <= 10) {
+                        // increment
+                        item_level_weapon++;
+
+                        // define the img src
+                        img.attr("src","resources/items/weapons/swords/" + up_item_pfix + item_level_weapon + ".png");
+
+                        // define the text element
+                        text.text("You looted a level " + item_level_weapon + " sword");
+
+                        // update the loot value holder
+                        item_dropped = rand_drop & item_level_weapon;
+                    } else {
+                        // TODO: EXPAND THIS
+                        // drop nothing (for now)
+
+                        // define the img src
+                        img.attr("src","resources/items/empty.png");
+
+                        // define the text element
+                        text.text("Spiders are loot technically...");
+                    }
+
+                }
+
+            }
+
+            // finally, show the dialog
+            $("#new_item_modal").modal('show');
+
+            // update the var
+            item_modal_shown = true;
+        }
+    }
+
+    // item drop animation
+    function itemDropAnimation(element) {
+        // define the element
+        var el = $("#"+element);
+
+        // init the animation
+        el.animate({
+                fontSize: '3em'}, "fast",
+            function () {
+                // reverse the animation effects
+                el.animate({
+                    fontSize: '1rem'}, "slow");
+            });
     }
 
     // death screen drawing
@@ -1139,7 +1275,6 @@ $(document).ready(function() {
         e.which = 100; // defines keycode
         element.focus().trigger(e); // triggers keypress
         element.focus().trigger(e); // triggers keypress
-        element.focus.trigger( "click" );
     });
 
     // attach the save rankings to the modal button

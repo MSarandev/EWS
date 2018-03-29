@@ -150,3 +150,15 @@ h1{
 #xp_bar_container{
     background-color: rgba(0,0,0,0.5);
 }
+
+/* New item modal style */
+#new_item_modal{
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+}
+#new_item_modal_title{
+    font-family: Niconne, "Times New Roman", Times, serif;
+}
+#new_item_modal_content{
+    background-color: #000;
+}
