@@ -45,12 +45,27 @@ $(document).ready(function() {
     var rooms_cleared = 0; // define the var
     var minion_health_updated = false; // default
     var boss_health_updated = false; // default
-    var health_potion_counter = 10; // default
+    var health_potion_counter = 1; // default
     // death screen counters
     var sword_swings = 0; // swings
-    var minions_killed = 0; // minions kille
+    var minions_killed = 0; // minions kills
     // data pull requests
     var data_pull_requests = 0;
+    // upgradable items file prefix
+    var up_item_pfix = "lvl";
+    // gear counters
+    var item_level_head = 0; // default
+    var item_level_chest = 0; // default
+    var item_level_weapon = 0; // default
+    // XP counter
+    var current_xp = 0; // default
+    var max_xp = 50; // default for level 1
+    var current_level = 1; //default
+    var block_width = 1; // default
+    var block_value = 1;
+
+    /** important */
+    var el_max_width = 100; //default
 
 
     /**
@@ -510,8 +525,14 @@ $(document).ready(function() {
                 // decrease the health of the minion
                 if(i!==0) {
                     health_list[i-1] = health_list[i-1] - player_attack_power;
+
+                    // update the XP
+                    addXP("sword_swing");
                 }else if(i === 0){
                     health_list[0] = health_list[0] - player_attack_power;
+
+                    // update the XP
+                    addXP("minion_dead");
                 }
 
                 if(health_list[i-1]<=0 || health_list[0]<= 0){
@@ -525,6 +546,9 @@ $(document).ready(function() {
 
                     // increment the counter
                     minions_killed++;
+
+                    // update the XP
+                    addXP("minion_dead");
                 }
 
                 // roll the dice on the item drop
@@ -551,6 +575,9 @@ $(document).ready(function() {
 
             if(boss_details[1]<=0 || boss_details[1]<= 0){
                 // Boss dead (yay)
+
+                // update the XP
+                addXP("boss_dead");
 
                 // rename the boss
                 boss_details[0] = "DEAD";
@@ -738,6 +765,107 @@ $(document).ready(function() {
     function tryAgain() {
         // reload the page
         window.location.reload();
+    }
+
+    // level up animation control
+    function levelUpAnim() {
+        // define the element
+        var el = $("#level_holder_p");
+
+        // init the animation
+        el.animate({
+            fontSize: '3em',
+            color: "#FF0003"}, "fast",
+            function () {
+            // reverse the animation effects
+                el.animate({
+                fontSize: '1rem',
+                color: "#fff"}, "slow");
+        });
+    }
+
+    // update the level counter
+    function updateLvlCounter(new_lvl){
+        $("#level_holder_p").text("Level: " + new_lvl);
+    }
+
+    // increment the xp bar
+    function addXP(en_type){
+        // check if the player leveled up
+
+        // define the bonus XP amount
+        var bonus = rooms_cleared*2;
+        var xp_bar = $("#xp_bar");
+        var xp_details = $("#xp_detail");
+
+        if(current_xp <= max_xp-1){
+            // check what the player did
+            if(en_type==="sword_swing"){
+                // add a small amount
+                current_xp += 5 + bonus;
+
+                // update the block value
+                block_value += 5*block_width;
+
+                // update the progress bar (5 blocks)
+                xp_bar.css("width", block_value+"%");
+            }else if(en_type==="minion_dead"){
+                // add some more xp
+                current_xp += 10 + bonus;
+
+                // update the block value
+                block_value += 10*block_width;
+
+                // update the progress bar (10 blocks)
+                xp_bar.css("width", block_value+"%");
+            }else if(en_type==="boss_dead"){
+                // add XL amount of xp
+                current_xp += 30 + bonus;
+
+                // update the block value
+                block_value += 30*block_width;
+
+                // update the progress bar (30 blocks)
+                xp_bar.css("width", block_value+"%");
+            }
+
+            // update the details
+            xp_details.text(current_xp + "/" + max_xp);
+        }else{
+            // the player leveled up
+
+            // update the counter
+            current_level += 1;
+
+            // reset the counter
+            if(current_xp-max_xp>0){
+                current_xp = current_xp-max_xp;
+            }else{
+                // FAIL SAFE
+                current_xp = 0;
+            }
+
+            // calculate the new block width
+            block_width = 100/max_xp;
+
+            // reset the block value
+            block_value = 0;
+
+            // update the XP reqs.
+            max_xp += 50 + rooms_cleared;
+
+            // call for visual animation
+            levelUpAnim();
+
+            // update the UI
+            updateLvlCounter(current_level);
+
+            // update the progress bar
+            xp_bar.css("width", current_xp+"%");
+
+            // update the details
+            xp_details.text(current_xp + "/" + max_xp);
+        }
     }
 
     // main draw function

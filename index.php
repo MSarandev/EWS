@@ -36,8 +36,31 @@
                     <div class="col-2 justify-content-center">
                         <div class="row justify-content-center align-items-center" id="char_container">
                             <p id="character_name">Falcon</p>
-                            <img src="resources/player/player_char_select.gif"
-                                 width="400"/>
+                            <div class="w-100"></div>
+                            <p>Gear</p>
+                            <div class="w-100"></div>
+                            <!-- Grid for item changes -->
+                            <div class="col-sm i_sock" id="head_socket">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/head/base.png"
+                                         id="head_sock_img"
+                                         width="80" height="80">
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="chest_socket">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/chest/base.png"
+                                         id="chest_sock_img"
+                                         width="80" height="80">
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="weapon_socket">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/weapons/swords/base.png"
+                                         id="weapon_sock_img"
+                                         width="160" height="80">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Contains the inventory -->
@@ -48,7 +71,7 @@
                                 <div class="row justify-content-center">
                                     <img src="resources/items/h_potion.png"
                                          width="50" height="50">
-                                    <p id="potion_counter">2</p>
+                                    <p id="potion_counter">1</p>
                                 </div>
                             </div>
                             <div class="col-sm i_sock" id="sock_2">Item socket</div>
@@ -70,7 +93,22 @@
                     <div class="row justify-content-center"
                          id="stats_container">
                         <!-- Contains the current stats -->
-                        <h2>Your stats, knight</h2>
+                        <h2>Your experience</h2>
+                        <div class="w-100"></div>
+                        <div class="row w-100 justify-content-center">
+                            <p id="level_holder_p">Level 1</p>
+                            <div class="w-100"></div>
+                            <p id="xp_detail">0/50</p>
+                            <div class="w-100"></div>
+                            <div class="progress w-100" id="xp_bar_container">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                     id="xp_bar" role="progressbar"
+                                     aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="w-100"></div>
+
+                        <h4>Your stats, knight</h4>
                         <div class="row ml-5">
                             <img src="https://cdn3.iconfinder.com/data/icons/retro-game-items/100/retro-11-512.png"
                                  width="50" height="50">
@@ -236,7 +274,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.3.01) | © 2018 Copyright:
+            (build 1.3.2) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

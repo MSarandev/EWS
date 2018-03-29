@@ -40,7 +40,7 @@ h1{
 #char_container{
     height: 300px;
     border: 1px solid rgba(255,255,255,0.3);
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(255,255,255,0.2);
 }
 
 /* Control the item socket display */
@@ -144,4 +144,9 @@ h1{
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* Controls the XP bar design */
+#xp_bar_container{
+    background-color: rgba(0,0,0,0.5);
 }
