@@ -594,7 +594,7 @@ $(document).ready(function() {
         }
 
         // strike the player back, maybe...
-        var rand = Math.floor((Math.random() * player_defence_max) + 1);
+        var rand = Math.floor((Math.random() * player_defence_current) + 1);
 
         if(rand === 5 || rand === 3){
             // unlucky, strike back
@@ -798,7 +798,7 @@ $(document).ready(function() {
         var xp_bar = $("#xp_bar");
         var xp_details = $("#xp_detail");
 
-        if(current_xp <= max_xp-1){
+        if(current_xp < max_xp-1){
             // check what the player did
             if(en_type==="sword_swing"){
                 // add a small amount
@@ -865,7 +865,52 @@ $(document).ready(function() {
 
             // update the details
             xp_details.text(current_xp + "/" + max_xp);
+
+            // give the player more attack power
+            addPower();
         }
+    }
+
+    // increment the player def/attack
+    function addPower(){
+        // define the elements
+        var attack_index = $("#attack_index");
+        var defence_index = $("#defence_index");
+
+        // increment by level
+        player_attack_power  = 10 + current_level;
+
+        // plus a constant
+        player_defence_current = 10 + current_level;
+
+        // update the UI
+        attack_index.text(player_attack_power);
+        defence_index.text(player_defence_current + "(passive)");
+
+        // animate the changes
+
+        // init the animation
+        attack_index.animate({
+                fontSize: '3em',
+                backgroundColor: "#FF0003"}, "fast",
+            function () {
+                // animate the defence
+                defence_index.animate({
+                    fontSize: '3em',
+                    backgroundColor: "#FF0003"}, "fast",
+                    function () {
+                        // reverse the attack index
+                        attack_index.animate({
+                            fontSize: '1rem',
+                            backgroundColor: "transparent"}, "slow",
+                            function () {
+                            // reverse the defence
+                                defence_index.animate({
+                                    fontSize: '1rem',
+                                    backgroundColor: "transparent"}, "slow");
+                            });
+                    });
+            });
     }
 
     // main draw function
@@ -1067,7 +1112,7 @@ $(document).ready(function() {
     $("#health_index").text(player_health_max);
 
     // show the defence power
-    $("#defence_index").text(player_defence_max);
+    $("#defence_index").text(player_defence_max + "   (passive)");
 
     // show the attack power
     $("#attack_index").text(player_attack_power);
