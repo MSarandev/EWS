@@ -23,7 +23,7 @@
 </head>
 <body>
     <div class="container-fluid justify-content-center">
-        <h1>Dungeon Crawler v. 1.1</h1>
+        <h1>Dungeon Crawler</h1>
     </div>
 
     <div class="container-fluid h-100">
@@ -274,7 +274,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.3.3) | © 2018 Copyright:
+            (build 1.3.4) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

@@ -1132,6 +1132,14 @@ $(document).ready(function() {
         // Pull the ranking data
         pullRankingData();
         displayRankings();
+
+        // trigger a click twice, to force focus and draw
+        var element = $("#main_plot");
+        var e = jQuery.Event("keypress");
+        e.which = 100; // defines keycode
+        element.focus().trigger(e); // triggers keypress
+        element.focus().trigger(e); // triggers keypress
+        element.focus.trigger( "click" );
     });
 
     // attach the save rankings to the modal button
