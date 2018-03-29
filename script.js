@@ -64,7 +64,7 @@ $(document).ready(function() {
     var block_width = 1; // default
     var block_value = 1;
     var item_modal_shown = false; // default
-    var item_dropped = 0; // default
+    var item_dropped = "0"; // default
 
 
     /**
@@ -703,7 +703,7 @@ $(document).ready(function() {
                         text.text("You looted a level " + item_level_head + " head armour");
 
                         // update the loot value holder
-                        item_dropped = rand_drop & item_level_head;
+                        item_dropped = rand_drop.toString() + item_level_head.toString();
                     } else {
                         // TODO: EXPAND THIS
                         // drop nothing (for now)
@@ -729,7 +729,7 @@ $(document).ready(function() {
                         text.text("You looted a level " + item_level_chest + " chest armour");
 
                         // update the loot value holder
-                        item_dropped = rand_drop & item_level_chest;
+                        item_dropped = rand_drop.toString() + item_level_chest.toString();
                     } else {
                         // TODO: EXPAND THIS
                         // drop nothing (for now)
@@ -755,7 +755,7 @@ $(document).ready(function() {
                         text.text("You looted a level " + item_level_weapon + " sword");
 
                         // update the loot value holder
-                        item_dropped = rand_drop & item_level_weapon;
+                        item_dropped = rand_drop.toString() + item_level_weapon.toString();
                     } else {
                         // TODO: EXPAND THIS
                         // drop nothing (for now)
@@ -777,6 +777,45 @@ $(document).ready(function() {
             // update the var
             item_modal_shown = true;
         }
+    }
+
+    // equip the new item
+    function equipItem(){
+        // split the var
+        var item = item_dropped.toString().substr(0,1);
+        var lvl = item_dropped.toString().substr(1, item_dropped.length-1);
+        var img; // define
+
+        // check what item to equip
+        switch (item.toString()) {
+            case "1":
+                // HEAD
+                img = $("#head_sock_img");
+
+                // change the src
+                img.attr("src", "resources/items/head/lvl"+lvl.toString()+".png");
+
+                break;
+            case "2":
+                // CHEST
+                img = $("#chest_sock_img");
+
+                // change the src
+                img.attr("src", "resources/items/chest/lvl"+lvl.toString()+".png");
+
+                break;
+            case "3":
+                // WEAPON
+                img = $("#weapon_sock_img");
+
+                // change the src
+                img.attr("src", "resources/items/weapons/swords/lvl"+lvl.toString()+".png");
+
+                break;
+            default:
+                break;
+        }
+
     }
 
     // item drop animation
@@ -1255,6 +1294,11 @@ $(document).ready(function() {
 
     // show the rooms cleared
     $("#rooms_cleared").text(rooms_cleared);
+
+    // bind the equip item button
+    $("#button_equip_item").click(function () {
+       equipItem();
+    });
 
     // show the lore modal
     $('#lore_modal').modal('show');
