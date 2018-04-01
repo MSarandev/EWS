@@ -88,13 +88,63 @@
                                     <p id="potion_counter">1</p>
                                 </div>
                             </div>
-                            <div class="col-sm i_sock" id="sock_2">Item socket</div>
-                            <div class="col-sm i_sock" id="sock_3">Item socket</div>
-                            <div class="col-sm i_sock" id="sock_4">Item socket</div>
-                            <div class="col-sm i_sock" id="sock_5">Item socket</div>
+                            <!-- Empty potion slots -->
+                            <div class="col-sm i_sock" id="sock_2">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_3">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_4">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_5">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_6">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm i_sock" id="sock_7">
+                                <div class="row justify-content-center">
+                                    <img src="resources/items/no_potion.png"
+                                         data-toggle="tooltip" data-placement="top"
+                                         title="No potion"
+                                         width="45" height="50">
+                                    <p id="potion_counter"></p>
+                                </div>
+                            </div>
                             <div class="w-100"></div>
-                            <div class="col-sm i_sock" id="sock_6">Item socket</div>
-                            <div class="col-sm i_sock" id="sock_7">Item socket</div>
+
                             <div class="col-sm i_sock" id="sock_8">Item socket</div>
                             <div class="col-sm i_sock" id="sock_9">Item socket</div>
                             <div class="col-sm i_sock" id="sock_10">Item socket</div>
@@ -320,7 +370,7 @@
     <footer class="footer">
         <!--Copyright-->
         <div class="container-fluid justify-content-center">
-            (build 1.3.6) | © 2018 Copyright:
+            (build 1.3.7) | © 2018 Copyright:
                 <a href="https://www.linkedin.com/in/msarandev/"> Maxim Sarandev </a>
             |
             <a href="https://github.com/MSarandev">

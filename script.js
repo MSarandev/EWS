@@ -46,6 +46,7 @@ $(document).ready(function() {
     var minion_health_updated = false; // default
     var boss_health_updated = false; // default
     var health_potion_counter = 1; // default
+    var max_potions = 10;
     // death screen counters
     var sword_swings = 0; // swings
     var minions_killed = 0; // minions kills
@@ -419,14 +420,21 @@ $(document).ready(function() {
             ctx.fillText(boss_details[0],x_counter+35, y_counter -15);
             // check for cleared rooms
             if(rooms_cleared!==0 && boss_health_updated===false){
-                var new_health = parseInt(boss_details[1]) + rooms_cleared + 5;
+                var new_health = parseInt(boss_details[1]) + current_level*10 +
+                    player_attack_power*10 + rooms_cleared*5;
 
                 // update the array
                 boss_details[1] = new_health;
 
-                // draw health
-                ctx.fillText(new_health.toString(), x_counter + 45, y_counter);
 
+                if(new_health<1000) {
+                    // draw health
+                    ctx.fillText(new_health.toString(), x_counter + 45, y_counter);
+                }else{
+                    var instant_health = parseInt(new_health)/1000;
+
+                    ctx.fillText(instant_health.toString()+"k", x_counter + 45, y_counter);
+                }
                 // update the var
                 boss_health_updated = true;
             }else {
@@ -652,6 +660,9 @@ $(document).ready(function() {
             // update the UI
             $("#potion_counter").text(health_potion_counter);
 
+            // update the max
+            max_potions--;
+
             // update
             draw();
         }else{
@@ -668,7 +679,14 @@ $(document).ready(function() {
     // drop item
     function dropItem(number) {
         // at the moment, drop health potions only
-        health_potion_counter += number;
+        // check if carrying max
+        if(max_potions<10) {
+            // increment the potion counter
+            health_potion_counter += number;
+
+            // increment the limiter
+            max_potions++;
+        }
 
         // show the animation
         itemDropAnimation("potion_counter");
@@ -692,7 +710,7 @@ $(document).ready(function() {
                     // HEAD
 
                     // check if the head slot is at max level
-                    if (item_level_head <= 10) {
+                    if (item_level_head < 10) {
                         // increment
                         item_level_head++;
 
@@ -718,7 +736,7 @@ $(document).ready(function() {
                     // CHEST
 
                     // check if the head slot is at max level
-                    if (item_level_chest <= 10) {
+                    if (item_level_chest < 10) {
                         // increment
                         item_level_chest++;
 
@@ -744,7 +762,7 @@ $(document).ready(function() {
                     // WEAPON
 
                     // check if the head slot is at max level
-                    if (item_level_weapon <= 10) {
+                    if (item_level_weapon < 10) {
                         // increment
                         item_level_weapon++;
 
@@ -950,11 +968,13 @@ $(document).ready(function() {
         // init the animation
         el.animate({
             fontSize: '3em',
+            display: 'inline-block',
             color: "#FF0003"}, "fast",
             function () {
             // reverse the animation effects
                 el.animate({
                 fontSize: '1rem',
+                display: 'block',
                 color: "#fff"}, "slow");
         });
     }
@@ -1067,21 +1087,25 @@ $(document).ready(function() {
         // init the animation
         attack_index.animate({
                 fontSize: '3em',
+                display: 'inline',
                 backgroundColor: "#FF0003"}, "fast",
             function () {
                 // animate the defence
                 defence_index.animate({
                     fontSize: '3em',
+                        display: 'inline',
                     backgroundColor: "#FF0003"}, "fast",
                     function () {
                         // reverse the attack index
                         attack_index.animate({
                             fontSize: '1rem',
+                            display: 'block',
                             backgroundColor: "transparent"}, "slow",
                             function () {
                             // reverse the defence
                                 defence_index.animate({
                                     fontSize: '1rem',
+                                    display: 'block',
                                     backgroundColor: "transparent"}, "slow");
                             });
                     });

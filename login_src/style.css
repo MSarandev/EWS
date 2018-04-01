@@ -1,0 +1,33 @@
+/* Created by Maxim Sarandev, custom style related to bootstrap's CSS */
+/* Copyright 2018 */
+
+
+@import url('https://fonts.googleapis.com/css?family=Cabin|Niconne');
+
+html, body{
+    height: 90%;
+}
+
+body{
+    background: #000 url("../resources/bck.jpg") no-repeat;
+    background-size: cover;
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+    overflow: hidden;
+}
+
+h1, h2{
+    font-family: Niconne, "Times New Roman", Times, serif;
+}
+
+/* Control the modal appearance */
+#login_modal{
+    color: #fff;
+    font-family: Cabin, "Times New Roman", Times, serif;
+}
+#login_modal_title{
+    font-family: Niconne, "Times New Roman", Times, serif;
+}
+#login_modal_content{
+    background-color: #000;
+}
